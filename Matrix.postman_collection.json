@@ -1,0 +1,3423 @@
+{
+	"info": {
+		"_postman_id": "d379cec4-da67-478c-9a75-ba656d726e37",
+		"name": "Matrix",
+		"description": "Add `assetsURL = https://example.com/postman_assets/` as a global environment variable\n\n## Sample assetsURL assets\nhttps://example.com/postman_assets/script.js\n```javascript\nfunction copy(text, info = false) {\n    if (info === 'room') {\n        text = encodeURIComponent(text);\n        text = 'https://example.com/matrixinfo/room=' + text;\n    }\n    else if (info == 'user') {\n        text = encodeURIComponent(text);\n        text = 'https://example.com/matrixinfo/user=' + text;\n    }\n    navigator.clipboard.writeText(text)\n}\n\nfunction save(text, destination) {\n    pm.environment.set(destination, text);\n}\n```\n\nhttps://example.com/postman_assets/style.css\n\nStyles the visualizer the same as default Postman dark mode\n```css\nbody, p, th, td {\n    color: #d4d4d4;\n}\nbody {\n    background-color: #212121;\n}\ntable {\n    background: #212121;\n}\ntable, th, td {\n    padding: 10px;\n    border: 1px solid #dcddde;\n    border-collapse: collapse;\n}\nspan {\n    cursor: pointer;\n}    \n.pointer {\n    cursor: pointer;\n}\n```",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Federation",
+			"item": [
+				{
+					"name": "Signing key other server",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{delegatedURL}}/_matrix/key/v2/query/matrix.org/ed25519:key_id",
+							"protocol": "https",
+							"host": [
+								"{{delegatedURL}}"
+							],
+							"path": [
+								"_matrix",
+								"key",
+								"v2",
+								"query",
+								"matrix.org",
+								"ed25519:key_id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Signign key this server",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{delegatedURL}}/_matrix/key/v2/server",
+							"protocol": "https",
+							"host": [
+								"{{delegatedURL}}"
+							],
+							"path": [
+								"_matrix",
+								"key",
+								"v2",
+								"server"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Version",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{delegatedURL}}/_matrix/federation/v1/version",
+							"protocol": "https",
+							"host": [
+								"{{delegatedURL}}"
+							],
+							"path": [
+								"_matrix",
+								"federation",
+								"v1",
+								"version"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "well-known client",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{url}}/.well-known/matrix/client",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								".well-known",
+								"matrix",
+								"client"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "well-known server",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{url}}/.well-known/matrix/server",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								".well-known",
+								"matrix",
+								"server"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Client-Server",
+			"item": [
+				{
+					"name": "Account",
+					"item": [
+						{
+							"name": "Current account information",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/account/whoami",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"account",
+										"whoami"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {",
+											"    pm.environment.set('userToken', pm.response.json().access_token);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"identifier\": {\n    \"type\": \"m.id.user\",\n    \"user\": \"localuser\"\n  },\n  \"type\": \"m.login.password\",\n  \"password\": \"secret\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/login",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Logout user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {",
+											"    pm.environment.set('userToken', '');",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/logout",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Set avatar",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"avatar_url\": \"mxc://{{url}}/{{mediaId}}\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/profile/{{userId}}/avatar_url",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"profile",
+										"{{userId}}",
+										"avatar_url"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sync",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/account/whoami",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"account",
+										"whoami"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Communities",
+					"item": [
+						{
+							"name": "List Rooms",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/groups/{{community}}/rooms",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"groups",
+										"{{community}}",
+										"rooms"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List Users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/groups/{{community}}/users",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"groups",
+										"{{community}}",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Summary",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/groups/{{community}}/summary",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"groups",
+										"{{community}}",
+										"summary"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Media",
+					"item": [
+						{
+							"name": "Download file",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/media/r0/download/{{url}}/{{mediaId}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"media",
+										"r0",
+										"download",
+										"{{url}}",
+										"{{mediaId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Upload file",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {",
+											"    const mxc_uri = pm.response.json().content_uri;",
+											"    const uri = String(mxc_uri).replace('mxc://', '');",
+											"    const media_id = uri.split('/')[1];",
+											"    pm.environment.set('mediaId', media_id);",
+											"}",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "file",
+									"file": {
+										"src": ""
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/media/r0/upload",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"media",
+										"r0",
+										"upload"
+									]
+								},
+								"description": "Select the file under Body -> binary"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Rooms",
+					"item": [
+						{
+							"name": "Create room",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {",
+											"    const response = pm.response.json();",
+											"",
+											"    pm.environment.set('roomId', response.room_id);",
+											"    if (response.room_alias_name) {",
+											"        pm.environment.set('roomAlias', response.room_alias_name);",
+											"    }",
+											"}",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"sampleRoom\",\n    \"topic\": \"sampleRoom\",\n    \"visibility\": \"private\",\n    \"room_alias_name\": \"sampleRoom\",\n    \"preset\": \"private_chat\",\n    // \"room_id\": \"!sampleRoom:{{url}}\",\n    \"room_version\": \"8\",\n    \"creation_content\": {\n        \"predecessor\": {\n            \"room_id\": \"!roomIdOfOldRoom\",\n            \"event_id\": \"$tombstoneEventIdInOldRoom\"\n        }\n    },\n    \"initial_state\": [\n        {\n            \"type\": \"m.room.guest_access\",\n            \"state_key\": \"\",\n            \"content\": {\n                \"guest_access\": \"can_join\"\n            }\n        },\n        {\n            \"type\": \"m.room.encryption\",\n            \"state_key\": \"\",\n            \"content\": {\n                \"algorithm\": \"m.megolm.v1.aes-sha2\"\n            }\n        }\n    ]\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/createRoom",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"createRoom"
+									]
+								},
+								"description": "https://spec.matrix.org/unstable/client-server-api/#post_matrixclientr0createroom"
+							},
+							"response": []
+						},
+						{
+							"name": "Enable room encryption",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"algorithm\": \"m.megolm.v1.aes-sha2\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "hxxps://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/state/m.room.encryption/",
+									"protocol": "hxxps",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"rooms",
+										"{{roomId}}",
+										"state",
+										"m.room.encryption",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Join room",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/join/{{roomId}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"join",
+										"{{roomId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Leave room",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/leave",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"rooms",
+										"{{roomId}}",
+										"leave"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Kick user from room",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"membership\": \"leave\",\n    \"reason\": \"reasonForKick\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/state/m.room.member/{{userId}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"rooms",
+										"{{roomId}}",
+										"state",
+										"m.room.member",
+										"{{userId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Resolve alias",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {",
+											"    const body = pm.response.json();",
+											"    pm.environment.set('roomId', body.room_id);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/directory/room/%23matrix:{{url}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"directory",
+										"room",
+										"%23matrix:{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Room members",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/joined_members",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"rooms",
+										"{{roomId}}",
+										"joined_members"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Room state (CS)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const template = `",
+											"<link rel=\"stylesheet\" type=\"text/css\" href=\"{{handlebarAssets.styleURL}}\" />",
+											"<script src=\"{{handlebarAssets.javascriptURL}}\"></script>",
+											"",
+											"<table>",
+											"    <tr>",
+											"        <td>Room name</td>",
+											"        <td><span onclick=\"copy('{{details.name}}')\">{{details.name}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Room topic</td>",
+											"        <td><span onclick=\"copy('{{details.topic}}')\">{{details.topic}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Room ID</td>",
+											"        <td>",
+											"            <span onclick=\"copy('{{details.room_id}}')\">{{details.room_id}}</span>",
+											"            <span onclick=\"copy('{{details.room_id}}', 'room')\">🛠</span>",
+											"            <span onclick=\"save('{{details.room_id}}', 'roomId')\">💾</span>",
+											"        </td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Room creator</td>",
+											"        <td>",
+											"            <span onclick=\"copy('{{details.room_creator}}')\">{{details.room_creator}}</span>",
+											"            <span onclick=\"copy('{{details.room_creator}}', 'user')\">🛠</span>",
+											"            <span onclick=\"save('{{details.room_creator}}', 'userId')\">💾</span>",
+											"        </td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Room creation time</td>",
+											"        <td><span onclick=\"copy('{{details.room_creation_time}}')\">{{details.room_creation_time}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Room version</td>",
+											"        <td><span onclick=\"copy('{{details.room_version}}')\">{{details.room_version}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Guest access</td>",
+											"        <td><span onclick=\"copy('{{details.guest_access}}')\">{{details.guest_access}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>History visibility</td>",
+											"        <td><span onclick=\"copy('{{details.history_visibility}}')\">{{details.history_visibility}}</span></td>",
+											"    </tr>",
+											"",
+											"    <tr>",
+											"        <td>Join rules</td>",
+											"        <td><span onclick=\"copy('{{details.join_rules}}')\">{{details.join_rules}}</span></td>",
+											"    </tr>",
+											"",
+											"    {{#if allow_rooms}}",
+											"    <tr>",
+											"        <td>Spaces with access</td>",
+											"        <td>",
+											"            {{#each allow_rooms}}",
+											"                <span onclick=\"copy('{{room_id}}')\">{{room_id}}</span>",
+											"            <span onclick=\"copy('{{room_id}}', 'room')\">🛠</span>",
+											"            <span onclick=\"save('{{room_id}}', 'roomId')\">💾</span>",
+											"            {{/each}}",
+											"        </td>",
+											"    </tr>",
+											"    {{/if}}",
+											"",
+											"    <tr>",
+											"        <td>Canonical alias</td>",
+											"        <td>",
+											"            <span onclick=\"copy('{{details.Call}}')\">{{details.canonical_alias}}</span>",
+											"            <span onclick=\"copy('{{details.canonical_alias}}', 'room')\">🛠</span>",
+											"            <span onclick=\"save('{{details.canonical_alias}}', 'roomAlias')\">💾</span>",
+											"        </td>",
+											"    </tr>",
+											"",
+											"    {{#if alias_array}}",
+											"    <tr>",
+											"        <td>Room aliases</td>",
+											"        <td>",
+											"            {{#each alias_array}}",
+											"                <span onclick=\"copy('{{alias}}')\">{{alias}}</span>",
+											"                <span onclick=\"copy('{{alias}}', 'room')\">🛠</span>",
+											"                <span onclick=\"save('{{alias}}', 'roomAlias')\">💾</span><br />",
+											"            {{/each}}",
+											"        </td>",
+											"    </tr>",
+											"    {{/if}}",
+											"",
+											"    {{#each predecessors}}",
+											"    <tr>",
+											"        <td>Predecessor room ID</td>",
+											"        <td>",
+											"            <span onclick=\"copy('{{predecessor_room_id}}')\">{{predecessor_room_id}}</span>",
+											"            <span onclick=\"copy('{{predecessor_room_id}}', 'room')\">🛠</span>",
+											"            <span onclick=\"save('{{predecessor_room_id}}', 'roomId')\">💾</span>",
+											"        </td>",
+											"    </tr>",
+											"    {{/each}}",
+											"",
+											"    {{#each tombstones}}",
+											"    <tr>",
+											"        <td>Tombstone body</td>",
+											"        <td><span onclick=\"copy('{{tombstone_body}}')\">{{tombstone_body}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Tombstone replacement room ID</td>",
+											"        <td>",
+											"            <span onclick=\"copy('{{replacement_room}}')\">{{replacement_room}}</span>",
+											"            <span onclick=\"copy('{{replacement_room}}', 'room')\">🛠</span>",
+											"            <span onclick=\"save('{{replacement_room}}', 'roomId')\">💾</span>",
+											"        </td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Tombstone time</td>",
+											"        <td><span onclick=\"copy('{{tombstone_time}}')\">{{tombstone_time}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Tombstone sender</td>",
+											"        <td>",
+											"            <span onclick=\"copy('{{tombstone_sender}}')\">{{tombstone_sender}}</span>",
+											"            <span onclick=\"copy('{{tombstone_sender}}', 'user')\">🛠</span>",
+											"            <span onclick=\"save('{{tombstone_sender}}', 'userId')\">💾</span>",
+											"        </td>",
+											"    </tr>",
+											"    {{/each}}",
+											"",
+											"    <tr>",
+											"        <td>Avatar</td>",
+											"        <td>",
+											"            {{#if details.avatar}}",
+											"                <img src=\"{{details.avatar}}\" onclick=\"copy('{{details.avatar}}')\" style=\"max-height: 200px; max-width: 200px;\" class=\"pointer\">",
+											"            {{else}}",
+											"                none",
+											"            {{/if}}",
+											"        </td>",
+											"    </tr>",
+											"",
+											"    <tr>",
+											"        <td>Default user power level</td>",
+											"        <td><span onclick=\"copy('{{details.users_default}}')\">{{details.users_default}}</span></td>",
+											"    </tr>",
+											"",
+											"    <tr>",
+											"        <td>Power level events</td>",
+											"        <td>",
+											"            {{#each pl_events}}",
+											"                <span onclick=\"copy('{{event}}')\">{{event}}</span><br />",
+											"            {{/each}}",
+											"        </td>",
+											"    </tr>",
+											"",
+											"    <tr>",
+											"        <td>Power levels</td>",
+											"        <td>",
+											"            {{#each power_levels}}",
+											"                <span onclick=\"copy('{{pl}}')\">{{pl}}</span><br />",
+											"            {{/each}}",
+											"        </td>",
+											"    </tr>",
+											"",
+											"    <tr>",
+											"        <td>Privileged users</td>",
+											"        <td>",
+											"            {{#each privileged_users}}",
+											"                <span onclick=\"copy('{{user}}')\">{{user}}</span>",
+											"                <span onclick=\"copy('{{user}}', 'user')\">🛠</span>",
+											"                <span onclick=\"save('{{user}}', 'userId')\">💾</span><br />",
+											"            {{/each}}",
+											"        </td>",
+											"    </tr>",
+											"",
+											"    {{#if restricted_users}}",
+											"        <tr>",
+											"            <td>Restricted users</td>",
+											"            <td>",
+											"                {{#each restricted_users}}",
+											"                    <span onclick=\"copy('{{user}}')\">{{user}}</span>",
+											"                    <span onclick=\"copy('{{user}}', 'user')\">🛠</span>",
+											"                    <span onclick=\"save('{{user}}', 'userId')\">💾</span><br />",
+											"                {{/each}}",
+											"            </td>",
+											"        </tr>",
+											"    {{/if}}",
+											"",
+											"    <tr>",
+											"        <td>Room members</td>",
+											"        <td>",
+											"            {{#each members}}",
+											"                <span onclick=\"copy('{{@key}}')\">{{@key}}</span>",
+											"                <span onclick=\"copy('{{@key}}', 'user')\">🛠</span>",
+											"                <span onclick=\"save('{{@key}}', 'userId')\">💾</span><br />",
+											"                {{#each this}}",
+											"                        &#9;- <b>Time: <span onclick=\"copy('{{this.time}}')\">{{this.time}}</span></b><br />",
+											"                        &#9;- Membership: <span onclick=\"copy('{{this.membership\\}}')\">{{this.membership}}</span><br />",
+											"                        {{#if this.avatar_url}}",
+											"                        &#9;- Displayname: <span onclick=\"copy('{{this.displayname}}')\">{{this.displayname}}</span><br />",
+											"                        &#9;- Avatar URL: <span onclick=\"copy('{{this.avatar_url}}')\">{{this.avatar_url}}</span><br />",
+											"                        {{/if}}",
+											"                {{/each}}",
+											"                <br />",
+											"            {{/each}}",
+											"        </td>",
+											"    </tr>",
+											"`;",
+											"",
+											"// Strings for printing keywords using the human-readable string from Element",
+											"const room_strings = {",
+											"    'guest_access': {",
+											"        'can_join': 'Enabled',",
+											"        'forbidden': ' Disabled',",
+											"    },",
+											"    'history_visibility': {",
+											"        'invited': 'Members only (since they were invited)',",
+											"        'joined': 'Members only (since they joined)',",
+											"        'shared': 'Members only (since the point in time of selecting this option)',",
+											"        'world_readable': 'Anyone',",
+											"    },",
+											"    'join_rules': {",
+											"        'invite': 'Private (invite only) - Only invited people can join',",
+											"        'public': 'Public - Anyone can find and join',",
+											"        'restricted': 'Space members - Anyone in a space can find and join',",
+											"    },",
+											"};",
+											"",
+											"// Store details about the room",
+											"const details = {",
+											"    'avatar': null,",
+											"    'canonical_alias': 'none',",
+											"    'name': 'none',",
+											"    'topic': 'none',",
+											"};",
+											"",
+											"// To keep track of the latest state event. To ensure only the latest one is used",
+											"const latest = {",
+											"    'avatar': 0,",
+											"    'canonical_alias': 0,",
+											"    'guest_access': 0,",
+											"    'history_visibility': 0,",
+											"    'join_rules': 0,",
+											"    'name': 0,",
+											"    'power_levels': 0,",
+											"    'topic': 0,",
+											"}",
+											"",
+											"// Store data about the room in these variables",
+											"const allow_rooms = [];",
+											"const aliases = new Set();",
+											"const members = {};",
+											"const predecessors = [];",
+											"let privileged_users = [];",
+											"let pl_events = [];",
+											"let power_levels = [];",
+											"let restricted_users = [];",
+											"const tombstones = [];",
+											"",
+											"if (pm.response.code === 200) {",
+											"    const response = pm.response.json();",
+											"    // This \"if\" is because the CS and Admin API return with different format.",
+											"    // Allows the same test to be copy-pasted unedited between the two.",
+											"    let state;",
+											"    if (typeof response.state === 'undefined') {",
+											"        state = response;",
+											"    } else {",
+											"        state = response.state;",
+											"    }",
+											"",
+											"    state.forEach(stateEvent => {",
+											"        if (stateEvent.type === 'm.room.aliases') {",
+											"            // Ensure no malformed or empty arrays are attempted processed",
+											"            if (Array.isArray(stateEvent.content.aliases) && stateEvent.content.aliases.length > 0) {",
+											"                stateEvent.content.aliases.forEach(alias => {",
+											"                    // Since aliases is a Set, uniqueness is ensured automatically",
+											"                    aliases.add({ alias });",
+											"                });",
+											"            }",
+											"        }",
+											"",
+											"",
+											"        if (stateEvent.type === 'm.room.avatar') {",
+											"            if (stateEvent.origin_server_ts > latest.avatar) {",
+											"                details.avatar = stateEvent.content.url.replace('mxc://', `https://${pm.environment.get('delegatedURL')}/_matrix/media/r0/download/`);",
+											"            }",
+											"        }",
+											"",
+											"        if (stateEvent.type === 'm.room.canonical_alias') {",
+											"            // Ensure only the latest state event is processed and saved/printed",
+											"            if (stateEvent.origin_server_ts > latest.canonical_alias) {",
+											"                latest.canonical_alias = stateEvent.origin_server_ts;",
+											"                details.canonical_alias = stateEvent.content.alias;",
+											"            }",
+											"        }",
+											"",
+											"        if (stateEvent.type === 'm.room.create') {",
+											"            details.room_id = stateEvent.room_id;",
+											"            details.room_creator = stateEvent.content.creator;",
+											"            pm.environment.set('userId', stateEvent.content.creator);",
+											"            details.room_creation_time = new Date(stateEvent.origin_server_ts);",
+											"            details.room_version = stateEvent.content.room_version;",
+											"",
+											"            if ('predecessor' in stateEvent.content) {",
+											"                predecessors.push({ 'predecessor_room_id': stateEvent.content.predecessor.room_id })",
+											"            };",
+											"        }",
+											"",
+											"        if (stateEvent.type === 'm.room.guest_access') {",
+											"            // Ensure only the latest state event is processed and saved/printed",
+											"            if (stateEvent.origin_server_ts > latest.guest_access) {",
+											"                latest.guest_access = stateEvent.origin_server_ts;",
+											"                details.guest_access = room_strings.guest_access[stateEvent.content.guest_access] || stateEvent.content.guest_access;",
+											"            }",
+											"        }",
+											"",
+											"        if (stateEvent.type === 'm.room.history_visibility') {",
+											"            // Ensure only the latest state event is processed and saved/printed",
+											"            if (stateEvent.origin_server_ts > latest.history_visibility) {",
+											"                latest.history_visibility = stateEvent.origin_server_ts;",
+											"                details.history_visibility = room_strings.history_visibility[stateEvent.content.history_visibility] || stateEvent.content.history_visibility;",
+											"            }",
+											"        }",
+											"",
+											"        if (stateEvent.type === 'm.room.join_rules') {",
+											"            // Ensure only the latest state event is processed and saved/printed",
+											"            if (stateEvent.origin_server_ts > latest.join_rules) {",
+											"                latest.join_rules = stateEvent.origin_server_ts;",
+											"                details.join_rules = room_strings.join_rules[stateEvent.content.join_rule] || stateEvent.content.join_rule;",
+											"",
+											"                if (stateEvent.content.join_rule === 'restricted') {",
+											"                    stateEvent.content.allow.forEach(room => {",
+											"                        allow_rooms.push({ 'room_id': `${room.type}: ${room.room_id}` });",
+											"                        console.log(allow_rooms);",
+											"                    });",
+											"                }",
+											"            }",
+											"        }",
+											"",
+											"        if (stateEvent.type === 'm.room.member') {",
+											"            // Only include joins and leavea",
+											"            if (stateEvent.content.membership === 'join' || stateEvent.content.membership === 'leave') {",
+											"                // Initialize an array on this user if first time seeing it",
+											"                members[stateEvent.user_id] = (typeof (members[stateEvent.user_id]) === 'undefined') ?",
+											"                    [] :",
+											"                    members[stateEvent.user_id];",
+											"",
+											"                // Inclde for goth joins and leaves",
+											"                let event = {",
+											"                    'membership': stateEvent.content.membership,",
+											"                    'time': new Date(stateEvent.origin_server_ts),",
+											"                };",
+											"",
+											"                // Additional information to include for joins",
+											"                if (stateEvent.content.membership === 'join') {",
+											"                    event = {",
+											"                        ...event,",
+											"                        'avatar_url': (stateEvent.content.avatar_url) ?",
+											"                            stateEvent.content.avatar_url.replace('mxc://', `https://${pm.environment.get('delegatedURL')}/_matrix/media/r0/download/`) :",
+											"                            'none',",
+											"                        'displayname': (stateEvent.content.displayname) ?",
+											"                            stateEvent.content.displayname.replace('\\'', ''):",
+											"                            'none',",
+											"                    }",
+											"                }",
+											"",
+											"                // Append to members array",
+											"                members[stateEvent.user_id].push(event);",
+											"            }",
+											"        }",
+											"",
+											"        if (stateEvent.type === 'm.room.name') {",
+											"            // Ensure only the latest state event is processed and saved/printed",
+											"            if (stateEvent.origin_server_ts > latest.name) {",
+											"                latest.name = stateEvent.origin_server_ts;",
+											"                details.name = stateEvent.content.name;",
+											"            }",
+											"        }",
+											"",
+											"        if (stateEvent.type === 'm.room.power_levels') {",
+											"            // Ensure only the latest state event is processed and saved/printed",
+											"            if (stateEvent.origin_server_ts > latest.power_levels) {",
+											"                latest.power_levels = stateEvent.origin_server_ts;",
+											"                const pl = stateEvent.content",
+											"",
+											"                details.users_default = parseInt(pl.users_default);",
+											"",
+											"                privileged_users = [];",
+											"                Object.keys(pl.users).forEach(user => {",
+											"                    const user_pl = parseInt(pl.users[user]);",
+											"                    // Users with higher than default power level",
+											"                    if (user_pl > details.users_default) {",
+											"                        privileged_users.push({ 'user': `${user}: ${user_pl}` })",
+											"                    }",
+											"",
+											"                    // Users with lower than default power level",
+											"                    else if (user_pl < pl.users_default) {",
+											"                        restricted_users.push({ 'user': `${user}: ${user_pl}` })",
+											"                    }",
+											"",
+											"                    // This also ensures users with explicitly listed with the default PL are ignored",
+											"                });",
+											"",
+											"                pl_events = [];",
+											"                Object.keys(pl.events).forEach(event => {",
+											"                    pl_events.push({ 'event': `${event}: ${pl.events[event]}` })",
+											"                });",
+											"",
+											"                // Removed keys already processed, and save the rest to an array for printing",
+											"                delete pl['events'];",
+											"                delete pl['users'];",
+											"                delete pl['users_default'];",
+											"                power_levels = [];",
+											"                Object.keys(pl).forEach(key => {",
+											"                    power_levels.push({ 'pl': `${key}: ${pl[key]}` })",
+											"                });",
+											"            }",
+											"        }",
+											"",
+											"        if (stateEvent.type === 'm.room.tombstone') {",
+											"            tombstones.push({",
+											"                'tombstone_body': stateEvent.content.body,",
+											"                'replacement_room': stateEvent.content.replacement_room,",
+											"                'tombstone_time': new Date(stateEvent.origin_server_ts),",
+											"                'tombstone_sender': stateEvent.sender,",
+											"            });",
+											"        }",
+											"",
+											"        if (stateEvent.type === 'm.room.topic') {",
+											"            if (stateEvent.origin_server_ts > latest.topic) {",
+											"                latest.topic = stateEvent.origin_server_ts;",
+											"                details.topic = stateEvent.content.topic;",
+											"            }",
+											"        }",
+											"    });",
+											"",
+											"    // Convert the aliases Set to an array that Handlebars understands",
+											"    alias_array = [...aliases];",
+											"    console.log(members);",
+											"",
+											"    // Call the visualizer template with all collected data",
+											"    const handlebarAssets = {",
+											"        'javascriptURL': `${pm.globals.get('assetsURL')}script.js`,",
+											"        'styleURL': `${pm.globals.get('assetsURL')}style.css`,",
+											"    }",
+											"    pm.visualizer.set(template, {",
+											"        handlebarAssets,",
+											"        alias_array,",
+											"        allow_rooms,",
+											"        details,",
+											"        members,",
+											"        pl_events,",
+											"        power_levels,",
+											"        predecessors,",
+											"        privileged_users,",
+											"        restricted_users,",
+											"        tombstones,",
+											"    });",
+											"}",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/state",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"rooms",
+										"{{roomId}}",
+										"state"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get room powerlevels",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/state/m.room.power_levels",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"rooms",
+										"{{roomId}}",
+										"state",
+										"m.room.power_levels"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Set room powerlevels",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ban\": 50,\n    \"events\": {},\n    \"events_default\": 50,\n    \"kick\": 50,\n    \"redact\": 50,\n    \"state_default\": 100,\n    \"users\": {\n        \"@localUser{{url}}\": 100\n    },\n    \"users_default\": -1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/state/m.room.power_levels",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"rooms",
+										"{{roomId}}",
+										"state",
+										"m.room.power_levels"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Send tombstone",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"replacement_room\": \"!newroom:{{url}}\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/state/m.room.tombstone",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"rooms",
+										"{{roomId}}",
+										"state",
+										"m.room.tombstone"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Send message",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"msgtype\":\"m.text\",\n\t\"body\":\"some text\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/send/m.room.message/{{$timestamp}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"rooms",
+										"{{roomId}}",
+										"send",
+										"m.room.message",
+										"{{$timestamp}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Send reaction",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"m.relates_to\": {\n        \"rel_type\": \"m.annotation\",\n        \"event_id\": \"{{eventId}}\",\n        \"key\": \"🦄\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/send/m.reaction/{{$timestamp}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"rooms",
+										"{{roomId}}",
+										"send",
+										"m.reaction",
+										"{{$timestamp}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Set room state",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/state",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"rooms",
+										"{{roomId}}",
+										"state"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Server",
+					"item": [
+						{
+							"name": "Server capabilities",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/capabilities",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"capabilities"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{userToken}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"const body = pm.response.json();",
+							"",
+							"if (body.errcode === 'M_CONSENT_NOT_GIVEN') {",
+							"    const url = `${body.consent_uri}&v=1.0`;",
+							"",
+							"    pm.sendRequest({ url, method: 'POST' }, (error, response) => {",
+							"        if (error) {",
+							"            const errorMessage = `Unable to accept terms of service. Error: ${err}`;",
+							"            console.log(errorMessage);",
+							"            pm.test(errorMessage, () => {",
+							"                pm.expect(1).to.equal(2);",
+							"            });",
+							"        }",
+							"",
+							"        const successMessage = 'Automatically accepted terms of servie for current user. Please run the query again';",
+							"        console.log(successMessage);",
+							"        pm.test(successMessage, () => {",
+							"            pm.expect(1).to.equal(1);",
+							"        });",
+							"    });",
+							"}",
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Account",
+					"item": [
+						{
+							"name": "Current admin account information",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/account/whoami",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"account",
+										"whoami"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {",
+											"    pm.environment.set('adminToken', pm.response.json().access_token);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"identifier\": {\n    \"type\": \"m.id.user\",\n    \"user\": \"admin\"\n  },\n  \"password\": \"secret\",\n  \"type\": \"m.login.password\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/login",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"login"
+									]
+								},
+								"description": "Log in as an admin user and store the access token for admin use\n\nhttps://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#change-whether-a-user-is-a-server-administrator-or-not"
+							},
+							"response": []
+						},
+						{
+							"name": "Logout admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {",
+											"    pm.environment.set('adminToken', '');",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/logout",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"logout"
+									]
+								},
+								"description": "Revokes the current admin access token\n\nhttps://spec.matrix.org/unstable/client-server-api/#post_matrixclientr0logout"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Media",
+					"item": [
+						{
+							"name": "Protect media from quarantine",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}g/_synapse/admin/v1/media/protect/localMediaId",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}g"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"media",
+										"protect",
+										"localMediaId"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/media_admin_api.html#protecting-media-from-being-quarantined"
+							},
+							"response": []
+						},
+						{
+							"name": "Quarantine media - matrix-media-repo",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/media/unstable/admin/quarantine/{{url}}/mediaId",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"media",
+										"unstable",
+										"admin",
+										"quarantine",
+										"{{url}}",
+										"mediaId"
+									]
+								},
+								"description": "https://github.com/turt2live/matrix-media-repo/blob/master/docs/admin.md#quarantine-a-specific-record"
+							},
+							"response": []
+						},
+						{
+							"name": "Quarantine media - Synapse media repo",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/media/quarantine/{{url}}/mediaId",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"media",
+										"quarantine",
+										"{{url}}",
+										"mediaId"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/media_admin_api.html#quarantining-media-by-id"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Rooms",
+					"item": [
+						{
+							"name": "Add alias to room",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"room_id\": \"{{roomId}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/directory/room/%23alias:{{url}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"directory",
+										"room",
+										"%23alias:{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete alias",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/directory/room/%23alias:{{url}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"directory",
+										"room",
+										"%23alias:{{url}}"
+									]
+								},
+								"description": "https://spec.matrix.org/unstable/client-server-api/#delete_matrixclientr0directoryroomroomalias"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete room - create replacement room",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"new_room_user_id\": \"@localUser:{{url}}\",\n    \"room_name\": \"Content Violation Notification\",\n    \"message\": \"Room has been shutdown due to content violations on this server. Please review our Terms of Service.\",\n    \"block\": true,\n    \"purge\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/rooms/{{roomId}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"rooms",
+										"{{roomId}}"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/rooms.html#delete-room-api"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete room - no replacement",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"block\": true,\n    \"purge\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/rooms/{{roomId}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"rooms",
+										"{{roomId}}"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/rooms.html#delete-room-api"
+							},
+							"response": []
+						},
+						{
+							"name": "Delist room",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/directory/list/room/{{roomId}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"directory",
+										"list",
+										"room",
+										"{{roomId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Make room admin",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user_id\": \"@user:{{url}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/rooms/{{roomId}}/make_room_admin",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"rooms",
+										"{{roomId}}",
+										"make_room_admin"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/rooms.html#make-room-admin-api"
+							},
+							"response": []
+						},
+						{
+							"name": "Event context",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {",
+											"    // Get events",
+											"    const eventsBefore = pm.response.json().events_before;",
+											"    const eventsAfter = pm.response.json().events_after;",
+											"    const selectedEvent = pm.response.json().event;",
+											"",
+											"    ",
+											"",
+											"    // Convert timestamps",
+											"    eventsBefore.forEach((event) => {",
+											"        const timeStamp = event.origin_server_ts;",
+											"        const timeDate = new Date(timeStamp);",
+											"        event.timeDate = timeDate;",
+											"    });",
+											"",
+											"    eventsAfter.forEach((event) => {",
+											"        const timeStamp = event.origin_server_ts;",
+											"        const timeDate = new Date(timeStamp);",
+											"        event.timeDate = timeDate;",
+											"    });",
+											"",
+											"    const timeStamp = selectedEvent.origin_server_ts;",
+											"    const timeDate = new Date(timeStamp);",
+											"    selectedEvent.timeDate = timeDate;",
+											"",
+											"",
+											"",
+											"    const template = `",
+											"        <link rel=\"stylesheet\" type=\"text/css\" href=\"{{handlebarAssets.styleURL}}\" />",
+											"        <script src=\"{{handlebarAssets.javascriptURL}}\"></script>",
+											"",
+											"        <table>",
+											"            <tr>",
+											"                <th>Zulu Time</th>",
+											"                <th>Sender</th>",
+											"                <th>Type</th>",
+											"                <th>Body</th>",
+											"            </tr>",
+											"",
+											"            <tr>",
+											"                <th colspan=\"4\">Events before<th>",
+											"            </tr>",
+											"",
+											"            {{#each eventsBefore}}",
+											"                <tr>",
+											"                    <td>{{timeDate}}</td>",
+											"                    <td>{{sender}}</td>",
+											"                    <td>{{type}}</td>",
+											"                    <td>{{content.body}}</td>",
+											"                </tr>",
+											"            {{/each}}",
+											"",
+											"            <tr>",
+											"                <th colspan=\"4\">Selected event<th>",
+											"            </tr>",
+											"",
+											"            <tr>",
+											"                <td>{{selectedEvent.timeDate}}</td>",
+											"                <td>{{selectedEvent.sender}}</td>",
+											"                <td>{{selectedEvent.type}}</td>",
+											"                <td>{{selectedEvent.content.body}}</td>",
+											"            </tr>",
+											"",
+											"            <tr>",
+											"                <th colspan=\"4\">Events after<th>",
+											"            </tr>",
+											"",
+											"            {{#each eventsAfter}}",
+											"                <tr>",
+											"                    <td>{{timeDate}}</td>",
+											"                    <td>{{sender}}</td>",
+											"                    <td>{{type}}</td>",
+											"                    <td>{{content.body}}</td>",
+											"                </tr>",
+											"            {{/each}}",
+											"",
+											"        </table>",
+											"    `;",
+											"",
+											"    const handlebarAssets = {",
+											"        'javascriptURL': `${pm.globals.get('assetsURL')}script.js`,",
+											"        'styleURL': `${pm.globals.get('assetsURL')}style.css`,",
+											"    }",
+											"    pm.visualizer.set(template, {",
+											"        handlebarAssets,",
+											"        eventsBefore,",
+											"        eventsAfter,",
+											"        selectedEvent,",
+											"    });",
+											"}",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/rooms/{{roomId}}/context/{{eventId}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"rooms",
+										"{{roomId}}",
+										"context",
+										"{{eventId}}"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/rooms.html#event-context-api"
+							},
+							"response": []
+						},
+						{
+							"name": "Room aliases",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/aliases",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"rooms",
+										"{{roomId}}",
+										"aliases"
+									]
+								},
+								"description": "https://spec.matrix.org/unstable/client-server-api/#get_matrixclientr0roomsroomidaliases"
+							},
+							"response": []
+						},
+						{
+							"name": "Room members",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/rooms/{{roomId}}/members",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"rooms",
+										"{{roomId}}",
+										"members"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/rooms.html#room-members-api"
+							},
+							"response": []
+						},
+						{
+							"name": "Room state (Admin)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const template = `",
+											"<link rel=\"stylesheet\" type=\"text/css\" href=\"{{handlebarAssets.styleURL}}\" />",
+											"<script src=\"{{handlebarAssets.javascriptURL}}\"></script>",
+											"",
+											"<table>",
+											"    <tr>",
+											"        <td>Room name</td>",
+											"        <td><span onclick=\"copy('{{details.name}}')\">{{details.name}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Room topic</td>",
+											"        <td><span onclick=\"copy('{{details.topic}}')\">{{details.topic}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Room ID</td>",
+											"        <td>",
+											"            <span onclick=\"copy('{{details.room_id}}')\">{{details.room_id}}</span>",
+											"            <span onclick=\"copy('{{details.room_id}}', 'room')\">🛠</span>",
+											"            <span onclick=\"save('{{details.room_id}}', 'roomId')\">💾</span>",
+											"        </td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Room creator</td>",
+											"        <td>",
+											"            <span onclick=\"copy('{{details.room_creator}}')\">{{details.room_creator}}</span>",
+											"            <span onclick=\"copy('{{details.room_creator}}', 'user')\">🛠</span>",
+											"            <span onclick=\"save('{{details.room_creator}}', 'userId')\">💾</span>",
+											"        </td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Room creation time</td>",
+											"        <td><span onclick=\"copy('{{details.room_creation_time}}')\">{{details.room_creation_time}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Room version</td>",
+											"        <td><span onclick=\"copy('{{details.room_version}}')\">{{details.room_version}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Guest access</td>",
+											"        <td><span onclick=\"copy('{{details.guest_access}}')\">{{details.guest_access}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>History visibility</td>",
+											"        <td><span onclick=\"copy('{{details.history_visibility}}')\">{{details.history_visibility}}</span></td>",
+											"    </tr>",
+											"",
+											"    <tr>",
+											"        <td>Join rules</td>",
+											"        <td><span onclick=\"copy('{{details.join_rules}}')\">{{details.join_rules}}</span></td>",
+											"    </tr>",
+											"",
+											"    {{#if allow_rooms}}",
+											"    <tr>",
+											"        <td>Spaces with access</td>",
+											"        <td>",
+											"            {{#each allow_rooms}}",
+											"                <span onclick=\"copy('{{room_id}}')\">{{room_id}}</span>",
+											"            <span onclick=\"copy('{{room_id}}', 'room')\">🛠</span>",
+											"            <span onclick=\"save('{{room_id}}', 'roomId')\">💾</span>",
+											"            {{/each}}",
+											"        </td>",
+											"    </tr>",
+											"    {{/if}}",
+											"",
+											"    <tr>",
+											"        <td>Canonical alias</td>",
+											"        <td>",
+											"            <span onclick=\"copy('{{details.Call}}')\">{{details.canonical_alias}}</span>",
+											"            <span onclick=\"copy('{{details.canonical_alias}}', 'room')\">🛠</span>",
+											"            <span onclick=\"save('{{details.canonical_alias}}', 'roomAlias')\">💾</span>",
+											"        </td>",
+											"    </tr>",
+											"",
+											"    {{#if alias_array}}",
+											"    <tr>",
+											"        <td>Room aliases</td>",
+											"        <td>",
+											"            {{#each alias_array}}",
+											"                <span onclick=\"copy('{{alias}}')\">{{alias}}</span>",
+											"                <span onclick=\"copy('{{alias}}', 'room')\">🛠</span>",
+											"                <span onclick=\"save('{{alias}}', 'roomAlias')\">💾</span><br />",
+											"            {{/each}}",
+											"        </td>",
+											"    </tr>",
+											"    {{/if}}",
+											"",
+											"    {{#each predecessors}}",
+											"    <tr>",
+											"        <td>Predecessor room ID</td>",
+											"        <td>",
+											"            <span onclick=\"copy('{{predecessor_room_id}}')\">{{predecessor_room_id}}</span>",
+											"            <span onclick=\"copy('{{predecessor_room_id}}', 'room')\">🛠</span>",
+											"            <span onclick=\"save('{{predecessor_room_id}}', 'roomId')\">💾</span>",
+											"        </td>",
+											"    </tr>",
+											"    {{/each}}",
+											"",
+											"    {{#each tombstones}}",
+											"    <tr>",
+											"        <td>Tombstone body</td>",
+											"        <td><span onclick=\"copy('{{tombstone_body}}')\">{{tombstone_body}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Tombstone replacement room ID</td>",
+											"        <td>",
+											"            <span onclick=\"copy('{{replacement_room}}')\">{{replacement_room}}</span>",
+											"            <span onclick=\"copy('{{replacement_room}}', 'room')\">🛠</span>",
+											"            <span onclick=\"save('{{replacement_room}}', 'roomId')\">💾</span>",
+											"        </td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Tombstone time</td>",
+											"        <td><span onclick=\"copy('{{tombstone_time}}')\">{{tombstone_time}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Tombstone sender</td>",
+											"        <td>",
+											"            <span onclick=\"copy('{{tombstone_sender}}')\">{{tombstone_sender}}</span>",
+											"            <span onclick=\"copy('{{tombstone_sender}}', 'user')\">🛠</span>",
+											"            <span onclick=\"save('{{tombstone_sender}}', 'userId')\">💾</span>",
+											"        </td>",
+											"    </tr>",
+											"    {{/each}}",
+											"",
+											"    <tr>",
+											"        <td>Avatar</td>",
+											"        <td>",
+											"            {{#if details.avatar}}",
+											"                <img src=\"{{details.avatar}}\" onclick=\"copy('{{details.avatar}}')\" style=\"max-height: 200px; max-width: 200px;\" class=\"pointer\">",
+											"            {{else}}",
+											"                none",
+											"            {{/if}}",
+											"        </td>",
+											"    </tr>",
+											"",
+											"    <tr>",
+											"        <td>Default user power level</td>",
+											"        <td><span onclick=\"copy('{{details.users_default}}')\">{{details.users_default}}</span></td>",
+											"    </tr>",
+											"",
+											"    <tr>",
+											"        <td>Power level events</td>",
+											"        <td>",
+											"            {{#each pl_events}}",
+											"                <span onclick=\"copy('{{event}}')\">{{event}}</span><br />",
+											"            {{/each}}",
+											"        </td>",
+											"    </tr>",
+											"",
+											"    <tr>",
+											"        <td>Power levels</td>",
+											"        <td>",
+											"            {{#each power_levels}}",
+											"                <span onclick=\"copy('{{pl}}')\">{{pl}}</span><br />",
+											"            {{/each}}",
+											"        </td>",
+											"    </tr>",
+											"",
+											"    <tr>",
+											"        <td>Privileged users</td>",
+											"        <td>",
+											"            {{#each privileged_users}}",
+											"                <span onclick=\"copy('{{user}}')\">{{user}}</span>",
+											"                <span onclick=\"copy('{{user}}', 'user')\">🛠</span>",
+											"                <span onclick=\"save('{{user}}', 'userId')\">💾</span><br />",
+											"            {{/each}}",
+											"        </td>",
+											"    </tr>",
+											"",
+											"    {{#if restricted_users}}",
+											"        <tr>",
+											"            <td>Restricted users</td>",
+											"            <td>",
+											"                {{#each restricted_users}}",
+											"                    <span onclick=\"copy('{{user}}')\">{{user}}</span>",
+											"                    <span onclick=\"copy('{{user}}', 'user')\">🛠</span>",
+											"                    <span onclick=\"save('{{user}}', 'userId')\">💾</span><br />",
+											"                {{/each}}",
+											"            </td>",
+											"        </tr>",
+											"    {{/if}}",
+											"",
+											"    <tr>",
+											"        <td>Room members</td>",
+											"        <td>",
+											"            {{#each members}}",
+											"                <span onclick=\"copy('{{@key}}')\">{{@key}}</span>",
+											"                <span onclick=\"copy('{{@key}}', 'user')\">🛠</span>",
+											"                <span onclick=\"save('{{@key}}', 'userId')\">💾</span><br />",
+											"                {{#each this}}",
+											"                        &#9;- <b>Time: <span onclick=\"copy('{{this.time}}')\">{{this.time}}</span></b><br />",
+											"                        &#9;- Membership: <span onclick=\"copy('{{this.membership\\}}')\">{{this.membership}}</span><br />",
+											"                        {{#if this.avatar_url}}",
+											"                        &#9;- Displayname: <span onclick=\"copy('{{this.displayname}}')\">{{this.displayname}}</span><br />",
+											"                        &#9;- Avatar URL: <span onclick=\"copy('{{this.avatar_url}}')\">{{this.avatar_url}}</span><br />",
+											"                        {{/if}}",
+											"                {{/each}}",
+											"                <br />",
+											"            {{/each}}",
+											"        </td>",
+											"    </tr>",
+											"`;",
+											"",
+											"// Strings for printing keywords using the human-readable string from Element",
+											"const room_strings = {",
+											"    'guest_access': {",
+											"        'can_join': 'Enabled',",
+											"        'forbidden': ' Disabled',",
+											"    },",
+											"    'history_visibility': {",
+											"        'invited': 'Members only (since they were invited)',",
+											"        'joined': 'Members only (since they joined)',",
+											"        'shared': 'Members only (since the point in time of selecting this option)',",
+											"        'world_readable': 'Anyone',",
+											"    },",
+											"    'join_rules': {",
+											"        'invite': 'Private (invite only) - Only invited people can join',",
+											"        'public': 'Public - Anyone can find and join',",
+											"        'restricted': 'Space members - Anyone in a space can find and join',",
+											"    },",
+											"};",
+											"",
+											"// Store details about the room",
+											"const details = {",
+											"    'avatar': null,",
+											"    'canonical_alias': 'none',",
+											"    'name': 'none',",
+											"    'topic': 'none',",
+											"};",
+											"",
+											"// To keep track of the latest state event. To ensure only the latest one is used",
+											"const latest = {",
+											"    'avatar': 0,",
+											"    'canonical_alias': 0,",
+											"    'guest_access': 0,",
+											"    'history_visibility': 0,",
+											"    'join_rules': 0,",
+											"    'name': 0,",
+											"    'power_levels': 0,",
+											"    'topic': 0,",
+											"}",
+											"",
+											"// Store data about the room in these variables",
+											"const allow_rooms = [];",
+											"const aliases = new Set();",
+											"const members = {};",
+											"const predecessors = [];",
+											"let privileged_users = [];",
+											"let pl_events = [];",
+											"let power_levels = [];",
+											"let restricted_users = [];",
+											"const tombstones = [];",
+											"",
+											"if (pm.response.code === 200) {",
+											"    const response = pm.response.json();",
+											"    // This \"if\" is because the CS and Admin API return with different format.",
+											"    // Allows the same test to be copy-pasted unedited between the two.",
+											"    let state;",
+											"    if (typeof response.state === 'undefined') {",
+											"        state = response;",
+											"    } else {",
+											"        state = response.state;",
+											"    }",
+											"",
+											"    state.forEach(stateEvent => {",
+											"        if (stateEvent.type === 'm.room.aliases') {",
+											"            // Ensure no malformed or empty arrays are attempted processed",
+											"            if (Array.isArray(stateEvent.content.aliases) && stateEvent.content.aliases.length > 0) {",
+											"                stateEvent.content.aliases.forEach(alias => {",
+											"                    // Since aliases is a Set, uniqueness is ensured automatically",
+											"                    aliases.add({ alias });",
+											"                });",
+											"            }",
+											"        }",
+											"",
+											"",
+											"        if (stateEvent.type === 'm.room.avatar') {",
+											"            if (stateEvent.origin_server_ts > latest.avatar) {",
+											"                details.avatar = stateEvent.content.url.replace('mxc://', `https://${pm.environment.get('delegatedURL')}/_matrix/media/r0/download/`);",
+											"            }",
+											"        }",
+											"",
+											"        if (stateEvent.type === 'm.room.canonical_alias') {",
+											"            // Ensure only the latest state event is processed and saved/printed",
+											"            if (stateEvent.origin_server_ts > latest.canonical_alias) {",
+											"                latest.canonical_alias = stateEvent.origin_server_ts;",
+											"                details.canonical_alias = stateEvent.content.alias;",
+											"            }",
+											"        }",
+											"",
+											"        if (stateEvent.type === 'm.room.create') {",
+											"            details.room_id = stateEvent.room_id;",
+											"            details.room_creator = stateEvent.content.creator;",
+											"            pm.environment.set('userId', stateEvent.content.creator);",
+											"            details.room_creation_time = new Date(stateEvent.origin_server_ts);",
+											"            details.room_version = stateEvent.content.room_version;",
+											"",
+											"            if ('predecessor' in stateEvent.content) {",
+											"                predecessors.push({ 'predecessor_room_id': stateEvent.content.predecessor.room_id })",
+											"            };",
+											"        }",
+											"",
+											"        if (stateEvent.type === 'm.room.guest_access') {",
+											"            // Ensure only the latest state event is processed and saved/printed",
+											"            if (stateEvent.origin_server_ts > latest.guest_access) {",
+											"                latest.guest_access = stateEvent.origin_server_ts;",
+											"                details.guest_access = room_strings.guest_access[stateEvent.content.guest_access] || stateEvent.content.guest_access;",
+											"            }",
+											"        }",
+											"",
+											"        if (stateEvent.type === 'm.room.history_visibility') {",
+											"            // Ensure only the latest state event is processed and saved/printed",
+											"            if (stateEvent.origin_server_ts > latest.history_visibility) {",
+											"                latest.history_visibility = stateEvent.origin_server_ts;",
+											"                details.history_visibility = room_strings.history_visibility[stateEvent.content.history_visibility] || stateEvent.content.history_visibility;",
+											"            }",
+											"        }",
+											"",
+											"        if (stateEvent.type === 'm.room.join_rules') {",
+											"            // Ensure only the latest state event is processed and saved/printed",
+											"            if (stateEvent.origin_server_ts > latest.join_rules) {",
+											"                latest.join_rules = stateEvent.origin_server_ts;",
+											"                details.join_rules = room_strings.join_rules[stateEvent.content.join_rule] || stateEvent.content.join_rule;",
+											"",
+											"                if (stateEvent.content.join_rule === 'restricted') {",
+											"                    stateEvent.content.allow.forEach(room => {",
+											"                        allow_rooms.push({ 'room_id': `${room.type}: ${room.room_id}` });",
+											"                        console.log(allow_rooms);",
+											"                    });",
+											"                }",
+											"            }",
+											"        }",
+											"",
+											"        if (stateEvent.type === 'm.room.member') {",
+											"            // Only include joins and leavea",
+											"            if (stateEvent.content.membership === 'join' || stateEvent.content.membership === 'leave') {",
+											"                // Initialize an array on this user if first time seeing it",
+											"                members[stateEvent.user_id] = (typeof (members[stateEvent.user_id]) === 'undefined') ?",
+											"                    [] :",
+											"                    members[stateEvent.user_id];",
+											"",
+											"                // Inclde for goth joins and leaves",
+											"                let event = {",
+											"                    'membership': stateEvent.content.membership,",
+											"                    'time': new Date(stateEvent.origin_server_ts),",
+											"                };",
+											"",
+											"                // Additional information to include for joins",
+											"                if (stateEvent.content.membership === 'join') {",
+											"                    event = {",
+											"                        ...event,",
+											"                        'avatar_url': (stateEvent.content.avatar_url) ?",
+											"                            stateEvent.content.avatar_url.replace('mxc://', `https://${pm.environment.get('delegatedURL')}/_matrix/media/r0/download/`) :",
+											"                            'none',",
+											"                        'displayname': (stateEvent.content.displayname) ?",
+											"                            stateEvent.content.displayname.replace('\\'', ''):",
+											"                            'none',",
+											"                    }",
+											"                }",
+											"",
+											"                // Append to members array",
+											"                members[stateEvent.user_id].push(event);",
+											"            }",
+											"        }",
+											"",
+											"        if (stateEvent.type === 'm.room.name') {",
+											"            // Ensure only the latest state event is processed and saved/printed",
+											"            if (stateEvent.origin_server_ts > latest.name) {",
+											"                latest.name = stateEvent.origin_server_ts;",
+											"                details.name = stateEvent.content.name;",
+											"            }",
+											"        }",
+											"",
+											"        if (stateEvent.type === 'm.room.power_levels') {",
+											"            // Ensure only the latest state event is processed and saved/printed",
+											"            if (stateEvent.origin_server_ts > latest.power_levels) {",
+											"                latest.power_levels = stateEvent.origin_server_ts;",
+											"                const pl = stateEvent.content",
+											"",
+											"                details.users_default = parseInt(pl.users_default);",
+											"",
+											"                privileged_users = [];",
+											"                Object.keys(pl.users).forEach(user => {",
+											"                    const user_pl = parseInt(pl.users[user]);",
+											"                    // Users with higher than default power level",
+											"                    if (user_pl > details.users_default) {",
+											"                        privileged_users.push({ 'user': `${user}: ${user_pl}` })",
+											"                    }",
+											"",
+											"                    // Users with lower than default power level",
+											"                    else if (user_pl < pl.users_default) {",
+											"                        restricted_users.push({ 'user': `${user}: ${user_pl}` })",
+											"                    }",
+											"",
+											"                    // This also ensures users with explicitly listed with the default PL are ignored",
+											"                });",
+											"",
+											"                pl_events = [];",
+											"                Object.keys(pl.events).forEach(event => {",
+											"                    pl_events.push({ 'event': `${event}: ${pl.events[event]}` })",
+											"                });",
+											"",
+											"                // Removed keys already processed, and save the rest to an array for printing",
+											"                delete pl['events'];",
+											"                delete pl['users'];",
+											"                delete pl['users_default'];",
+											"                power_levels = [];",
+											"                Object.keys(pl).forEach(key => {",
+											"                    power_levels.push({ 'pl': `${key}: ${pl[key]}` })",
+											"                });",
+											"            }",
+											"        }",
+											"",
+											"        if (stateEvent.type === 'm.room.tombstone') {",
+											"            tombstones.push({",
+											"                'tombstone_body': stateEvent.content.body,",
+											"                'replacement_room': stateEvent.content.replacement_room,",
+											"                'tombstone_time': new Date(stateEvent.origin_server_ts),",
+											"                'tombstone_sender': stateEvent.sender,",
+											"            });",
+											"        }",
+											"",
+											"        if (stateEvent.type === 'm.room.topic') {",
+											"            if (stateEvent.origin_server_ts > latest.topic) {",
+											"                latest.topic = stateEvent.origin_server_ts;",
+											"                details.topic = stateEvent.content.topic;",
+											"            }",
+											"        }",
+											"    });",
+											"",
+											"    // Convert the aliases Set to an array that Handlebars understands",
+											"    alias_array = [...aliases];",
+											"    console.log(members);",
+											"",
+											"    // Call the visualizer template with all collected data",
+											"    const handlebarAssets = {",
+											"        'javascriptURL': `${pm.globals.get('assetsURL')}script.js`,",
+											"        'styleURL': `${pm.globals.get('assetsURL')}style.css`,",
+											"    }",
+											"    pm.visualizer.set(template, {",
+											"        handlebarAssets,",
+											"        alias_array,",
+											"        allow_rooms,",
+											"        details,",
+											"        members,",
+											"        pl_events,",
+											"        power_levels,",
+											"        predecessors,",
+											"        privileged_users,",
+											"        restricted_users,",
+											"        tombstones,",
+											"    });",
+											"}",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/rooms/{{roomId}}/state",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"rooms",
+										"{{roomId}}",
+										"state"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/rooms.html#room-state-api"
+							},
+							"response": []
+						},
+						{
+							"name": "Rooms all",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/rooms",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"rooms"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/rooms.html#list-room-api"
+							},
+							"response": []
+						},
+						{
+							"name": "Room summary",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const template = `",
+											"<link rel=\"stylesheet\" type=\"text/css\" href=\"{{handlebarAssets.styleURL}}\" />",
+											"<script src=\"{{handlebarAssets.javascriptURL}}\"></script>",
+											"",
+											"<table>",
+											"    <tr>",
+											"        <td>Room ID</td>",
+											"        <td>",
+											"            <span onclick=\"copy('{{room.room_id}}')\">{{room.room_id}}</span>",
+											"            <span onclick=\"copy('{{room.room_id}}', 'user')\">🛠</span>",
+											"            <span onclick=\"save('{{room.room_id}}', 'userId')\">💾</span>",
+											"        </td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Name</td>",
+											"        <td><span onclick=\"copy('{{room.name}}')\">{{room.name}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Topic</td>",
+											"        <td><span onclick=\"copy('{{room.topic}}')\">{{room.topic}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Canonical Alias</td>",
+											"    <td>",
+											"        <span onclick=\"copy('{{room.canonical_alias}}')\">{{room.canonical_alias}}</span>",
+											"        <span onclick=\"copy('{{room.canonical_alias}}', 'user')\">🛠</span>",
+											"        <span onclick=\"save('{{room.canonical_alias}}', 'alias')\">💾</span>",
+											"    </td>",
+											"    <tr>",
+											"        <td>Joined members</td>",
+											"        <td><span onclick=\"copy('{{room.joined_members}}')\">{{room.joined_members}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Joined Local Members</td>",
+											"        <td><span onclick=\"copy('{{room.joined_local_members}}')\">{{room.joined_local_members}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Joined Local Devices</td>",
+											"        <td><span onclick=\"copy('{{room.joined_local_devices}}')\">{{room.joined_local_devices}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Room Version</td>",
+											"        <td><span onclick=\"copy('{{room.version}}')\">{{room.version}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Creator ID</td>",
+											"        <td>",
+											"            <span onclick=\"copy('{{room.creator}}')\">{{room.creator}}</span>",
+											"            <span onclick=\"copy('{{room.creator}}', 'user')\">🛠</span>",
+											"            <span onclick=\"save('{{room.creator}}', 'userId')\">💾</span>",
+											"        </td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Encrypted</td>",
+											"        <td><span onclick=\"copy('{{room.encryption}}')\">{{room.encryption}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Federatable</td>",
+											"        <td><span onclick=\"copy('{{room.federatable}}')\">{{room.federatable}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Public</td>",
+											"        <td><span onclick=\"copy('{{room.public}}')\">{{room.public}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Join Rules</td>",
+											"        <td><span onclick=\"copy('{{room.join_rules}}')\">{{room.join_rules}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Guest Access</td>",
+											"        <td><span onclick=\"copy('{{room.guest_access}}')\">{{room.guest_access}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>History Visibility</td>",
+											"        <td><span onclick=\"copy('{{room.history_visibility}}')\">{{room.history_visibility}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>State Events</td>",
+											"        <td><span onclick=\"copy('{{room.state_events}}')\">{{room.state_events}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Avatar</td>",
+											"        <td>",
+											"            {{#if room.avatar}}",
+											"                <img src=\"{{room.avatar}}\" onclick=\"copy('{{room.avatar}}')\" style=\"max-height: 200px; max-width: 200px;\" class=\"pointer\">",
+											"            {{else}}",
+											"                none",
+											"            {{/if}}",
+											"        </td>",
+											"    </tr>",
+											"</table>",
+											"`;",
+											"",
+											"// Strings for printing keywords using the human-readable string from Element",
+											"const room_strings = {",
+											"    'guest_access': {",
+											"        'can_join': 'Enabled',",
+											"        'forbidden': ' Disabled',",
+											"    },",
+											"    'history_visibility': {",
+											"        'invited': 'Members only (since they were invited)',",
+											"        'joined': 'Members only (since they joined)',",
+											"        'shared': 'Members only (since the point in time of selecting this option)',",
+											"        'world_readable': 'Anyone',",
+											"    },",
+											"    'join_rules': {",
+											"        'invite': 'Private (invite only) - Only invited people can join',",
+											"        'public': 'Public - Anyone can find and join',",
+											"        'restricted': 'Space members - Anyone in a space can find and join',",
+											"    },",
+											"};",
+											"",
+											"// room_strings.guest_access[stateEvent.content.guest_access] || stateEvent.content.guest_access;",
+											"",
+											"if (pm.response.code === 200) {",
+											"    const room = pm.response.json();",
+											"",
+											"    room.canonical_alias = room.canonical_alias || 'none';",
+											"    room.encryption = (room.encryption) ? 'Yes' : 'no';",
+											"    room.federatable = (room.federatable) ? 'Yes' : 'No';",
+											"    room.public = (room.public) ? 'Yes' : 'No';",
+											"    room.join_rules = room_strings.join_rules[room.join_rules] || room.join_rules;",
+											"    room.guest_access = room_strings.guest_access[room.guest_access] || room.guest_access;",
+											"    room.history_visibility = room_strings.history_visibility[room.history_visibility] || room.history_visibility;",
+											"    room.avatar = (room.avatar) ? room.avatar.replace('mxc://', `https://${pm.environment.get('delegatedURL')}/_matrix/media/r0/download/`) : null;",
+											"    room.topic = room.topic || 'none';",
+											"",
+											"    const handlebarAssets = {",
+											"        'javascriptURL': `${pm.globals.get('assetsURL')}script.js`,",
+											"        'styleURL': `${pm.globals.get('assetsURL')}style.css`,",
+											"    }",
+											"    pm.visualizer.set(template, {",
+											"        handlebarAssets,",
+											"        room,",
+											"    });",
+											"}",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/rooms/{{roomId}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"rooms",
+										"{{roomId}}"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/rooms.html#room-state-api"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Users",
+					"item": [
+						{
+							"name": "Create or modify Account",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 201) {",
+											"    pm.environment.set('userId', pm.response.json().name);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"password\": \"user_password\",\n    \"displayname\": \"User\",\n    \"threepids\": [\n        {\n            \"medium\": \"email\",\n            \"address\": \"<user_mail_1>\"\n        },\n        {\n            \"medium\": \"email\",\n            \"address\": \"<user_mail_2>\"\n        }\n    ],\n    \"avatar_url\": \"<avatar_url>\",\n    \"admin\": false,\n    \"deactivated\": false\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v2/users/{{userId}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v2",
+										"users",
+										"{{userId}}"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#create-or-modify-account"
+							},
+							"response": []
+						},
+						{
+							"name": "Check username availability",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/username_availabile?username=$localPart",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"username_availabile"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "$localPart"
+										}
+									]
+								},
+								"description": "https://spec.matrix.org/unstable/client-server-api/#get_matrixclientr0roomsroomidaliases"
+							},
+							"response": []
+						},
+						{
+							"name": "Deactivate account",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"erase\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/deactivate/{{userId}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"deactivate",
+										"{{userId}}"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#deactivate-account"
+							},
+							"response": []
+						},
+						{
+							"name": "Log in as user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {",
+											"    pm.environment.set('userToken', pm.response.json().access_token);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/users/{{userId}}/login",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"users",
+										"{{userId}}",
+										"login"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#login-as-a-user"
+							},
+							"response": []
+						},
+						{
+							"name": "Ratelimit status",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/users/@localuser:{{url}}/override_ratelimit",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"users",
+										"@localuser:{{url}}",
+										"override_ratelimit"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/rooms.html#list-room-api"
+							},
+							"response": []
+						},
+						{
+							"name": "Set ratelimit",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"messages_per_second\": 0,\n    \"burst_count\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/users/@localuser:{{url}}/override_ratelimit",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"users",
+										"@localuser:{{url}}",
+										"override_ratelimit"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/rooms.html#make-room-admin-api"
+							},
+							"response": []
+						},
+						{
+							"name": "Reset password",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"new_password\": \"password\",\n    \"logout_devices\": false\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/reset_password/{{userId}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"reset_password",
+										"{{userId}}"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#reset-password"
+							},
+							"response": []
+						},
+						{
+							"name": "Toggle Synapse admin",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"admin\": false\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/users/{{userId}}/admin",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"users",
+										"{{userId}}",
+										"admin"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#change-whether-a-user-is-a-server-administrator-or-not"
+							},
+							"response": []
+						},
+						{
+							"name": "User one",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const template = `",
+											"<link rel=\"stylesheet\" type=\"text/css\" href=\"{{handlebarAssets.styleURL}}\" />",
+											"<script src=\"{{handlebarAssets.javascriptURL}}\"></script>",
+											"",
+											"<table>",
+											"    <tr>",
+											"        <td>Name</td>",
+											"        <td><span onclick=\"copy('{{user.name}}')\">{{user.name}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Password set</td>",
+											"        <td><span onclick=\"copy('{{user.password}}')\">{{user.password}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Is guest</td>",
+											"        <td><span onclick=\"copy('{{user.is_guest}}')\">{{user.is_guest}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Admin</td>",
+											"        <td><span onclick=\"copy('{{user.admin}}')\">{{user.admin}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Consent version</td>",
+											"        <td><span onclick=\"copy('{{user.consent_version}}')\">{{user.consent_version}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Consent Server Notice Sent</td>",
+											"        <td><span onclick=\"copy('{{user.consent_server_notice_sent}}')\">{{user.consent_server_notice_sent}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Appservice ID</td>",
+											"        <td><span onclick=\"copy('{{user.appservice_id}}')\">{{user.appservice_id}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Creation time</td>",
+											"        <td><span onclick=\"copy('{{user.creation_ts}}')\">{{user.creation_ts}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>User type</td>",
+											"        <td><span onclick=\"copy('{{user.user_type}}')\">{{user.user_type}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Deactivated</td>",
+											"        <td><span onclick=\"copy('{{user.deactivated}}')\">{{user.deactivated}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Shadow banned</td>",
+											"        <td><span onclick=\"copy('{{user.shadow_banned}}')\">{{user.shadow_banned}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Displayname</td>",
+											"        <td><span onclick=\"copy('{{user.displayname}}')\">{{user.displayname}}</span></td>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>Avatar</td>",
+											"        <td>",
+											"            {{#if user.avatar_url}}",
+											"                <img src=\"{{user.avatar_url}}\" onclick=\"copy('{{user.avatar_url}}')\" style=\"max-height: 200px; max-width: 200px;\" class=\"pointer\">",
+											"            {{else}}",
+											"                none",
+											"            {{/if}}       ",
+											"        </td>",
+											"    </tr>",
+											"",
+											"    <tr>",
+											"        <td>Threepids</td>",
+											"        <td>",
+											"            {{#each threepids}}",
+											"                Medium: <span onclick=\"copy('{{medium}}')\">{{medium}}</span><br />",
+											"                Address: <span onclick=\"copy('{{address}}')\">{{address}}</span><br />",
+											"                Validated at: <span onclick=\"copy('{{validated_at}}')\">{{validated_at}}</span><br />",
+											"                Added at: <span onclick=\"copy('{{added_at}}')\">{{added_at}}</span><br /><br />",
+											"            {{/each}}",
+											"        </td>",
+											"    </tr>",
+											"",
+											"    ",
+											"    <tr>",
+											"        <td>External IDs</td>",
+											"        <td><span onclick=\"copy('{{user.external_ids}}')\">{{user.external_ids}}</span></td>",
+											"    </tr>",
+											"</table>",
+											"`;",
+											"",
+											"const threepids = [];",
+											"",
+											"if (pm.response.code === 200) {",
+											"    const user = pm.response.json();",
+											"",
+											"    user.password = (user.password_hash) ? 'Yes' : 'No?';",
+											"    user.is_guest = (user.is_guest === 0) ? 'No' : 'Yes';",
+											"    user.admin = (user.admin === 0) ? 'No' : 'Yes';",
+											"    user.consent_version = (user.consent_version) || 'none';",
+											"    user.consent_server_notice_sent = (user.consent_server_notice_sent) || 'none';",
+											"    user.appservice_id = (user.appservice_id) || 'none';",
+											"    user.creation_ts = new Date(user.creation_ts * 1000);",
+											"    user.user_type = (user.user_type) || 'not set';",
+											"    user.deactivated = (user.deactivated === 0) ? 'No' : 'Yes';",
+											"    user.shadow_banned = (user.shadow_banned) ? 'Yes' : 'No';",
+											"    user.avatar_url = (user.avatar_url) ? user.avatar_url.replace('mxc://', `https://${pm.environment.get('delegatedURL')}/_matrix/media/r0/download/`) : null;",
+											"    user.external_ids = JSON.stringify(user.external_ids);",
+											"",
+											"    user.threepids.forEach(pid => {",
+											"        threepids.push({",
+											"            'medium': pid.medium,",
+											"            'address': pid.address,",
+											"            'validated_at': new Date(pid.validated_at),",
+											"            'added_at': new Date(pid.added_at),",
+											"        });",
+											"    });",
+											"",
+											"    const handlebarAssets = {",
+											"        'javascriptURL': `${pm.globals.get('assetsURL')}script.js`,",
+											"        'styleURL': `${pm.globals.get('assetsURL')}style.css`,",
+											"    }",
+											"    pm.visualizer.set(template, {",
+											"        handlebarAssets,",
+											"        user,",
+											"        threepids,",
+											"    });",
+											"}",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v2/users/{{userId}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v2",
+										"users",
+										"{{userId}}"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#query-user-account"
+							},
+							"response": []
+						},
+						{
+							"name": "User devices",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v2/users/{{userId}}/devices",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v2",
+										"users",
+										"{{userId}}",
+										"devices"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#query-user-account"
+							},
+							"response": []
+						},
+						{
+							"name": "Users all",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const template = `",
+											"    <table bgcolor=\"#FFFFFF\">",
+											"        <tr>",
+											"            <th>Name</th>",
+											"            <th>Guest</th>",
+											"            <th>Admin</th>",
+											"            <th>Active</th>",
+											"            <th>Creation time</th>",
+											"            <th>Shadow banned</th>",
+											"            <th>Display name</th>",
+											"        </tr>",
+											"",
+											"        {{#each users}}",
+											"            <tr>",
+											"                <td>{{name}}</td>",
+											"                <td>{{is_guest}}</td>",
+											"                <td>{{admin}}</td>",
+											"                <td>{{deactivated}}</td>",
+											"                <td>{{creation_time}}</td>",
+											"                <td>{{shadow_banned}}</td>",
+											"                <td>{{displayname}}</td>",
+											"            </tr>",
+											"        {{/each}}",
+											"    </table>",
+											"`;",
+											"",
+											"",
+											"const users = pm.response.json().users;",
+											"",
+											"users.forEach(user => {",
+											"    const creation_ts = user.creation_ts;",
+											"    const creation_time = new Date(creation_ts);",
+											"    user.creation_time = creation_time;",
+											"})",
+											"",
+											"pm.visualizer.set(template, {",
+											"    // Pass the response body parsed as JSON as `data`",
+											"    users",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v2/users",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v2",
+										"users"
+									],
+									"query": [
+										{
+											"key": "user_id",
+											"value": "localpart",
+											"disabled": true
+										}
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#list-accounts"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Server",
+					"item": [
+						{
+							"name": "Event report",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {",
+											"    const response = pm.response.json();",
+											"    pm.environment.set('roomId', response.room_id);",
+											"    pm.environment.set('eventId', response.event_id);",
+											"}",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/event_reports/12345",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"event_reports",
+										"12345"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/event_reports.html#show-details-of-a-specific-event-report"
+							},
+							"response": []
+						},
+						{
+							"name": "Event reports",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/event_reports",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"event_reports"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/event_reports.html#show-reported-events"
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{adminToken}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

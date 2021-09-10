@@ -1,0 +1,20 @@
+body, p, th, td {
+    color: #d4d4d4;
+}
+body {
+    background-color: #212121;
+}
+table {
+    background: #212121;
+}
+table, th, td {
+    padding: 10px;
+    border: 1px solid #dcddde;
+    border-collapse: collapse;
+}
+span {
+    cursor: pointer;
+}    
+.pointer {
+    cursor: pointer;
+}
