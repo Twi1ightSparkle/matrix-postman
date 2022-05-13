@@ -10,6 +10,92 @@
 			"name": "Federation",
 			"item": [
 				{
+					"name": "Element version",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://chat.{{url}}/version",
+							"protocol": "https",
+							"host": [
+								"chat",
+								"{{url}}"
+							],
+							"path": [
+								"version"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Element config",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://chat.{{url}}/config.json",
+							"protocol": "https",
+							"host": [
+								"chat",
+								"{{url}}"
+							],
+							"path": [
+								"config.json"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Federation tester JSON report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://federationtester.matrix.org/api/report?server_name={{url}}",
+							"protocol": "https",
+							"host": [
+								"federationtester",
+								"matrix",
+								"org"
+							],
+							"path": [
+								"api",
+								"report"
+							],
+							"query": [
+								{
+									"key": "server_name",
+									"value": "{{url}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Matrix server version",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{delegatedURL}}/_matrix/federation/v1/version",
+							"protocol": "https",
+							"host": [
+								"{{delegatedURL}}"
+							],
+							"path": [
+								"_matrix",
+								"federation",
+								"v1",
+								"version"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Signing key other server",
 					"request": {
 						"method": "GET",
@@ -48,27 +134,6 @@
 								"key",
 								"v2",
 								"server"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Version",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "https://{{delegatedURL}}/_matrix/federation/v1/version",
-							"protocol": "https",
-							"host": [
-								"{{delegatedURL}}"
-							],
-							"path": [
-								"_matrix",
-								"federation",
-								"v1",
-								"version"
 							]
 						}
 					},
@@ -146,7 +211,7 @@
 					"name": "Account",
 					"item": [
 						{
-							"name": "Current account information",
+							"name": "Check username availability",
 							"event": [
 								{
 									"listen": "test",
@@ -162,7 +227,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/account/whoami",
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/register/available?username=localpart",
 									"protocol": "https",
 									"host": [
 										"{{delegatedURL}}"
@@ -171,8 +236,14 @@
 										"_matrix",
 										"client",
 										"r0",
-										"account",
-										"whoami"
+										"register",
+										"available"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "localpart"
+										}
 									]
 								}
 							},
@@ -259,6 +330,39 @@
 							"response": []
 						},
 						{
+							"name": "Profile",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/v0/profile/{{userId}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"v0",
+										"profile",
+										"{{userId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Set avatar",
 							"request": {
 								"method": "PUT",
@@ -292,6 +396,39 @@
 						},
 						{
 							"name": "Sync",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/account/whoami",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"account",
+										"whoami"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Whoami (CS)",
 							"event": [
 								{
 									"listen": "test",
@@ -509,6 +646,38 @@
 					"name": "Rooms",
 					"item": [
 						{
+							"name": "Add alias to room",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"room_id\": \"{{roomId}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/directory/room/%23alias:{{url}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"directory",
+										"room",
+										"%23alias:{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Create room",
 							"event": [
 								{
@@ -559,6 +728,30 @@
 							"response": []
 						},
 						{
+							"name": "Delete alias (CS)",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/directory/room/%23alias:{{url}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"directory",
+										"room",
+										"%23alias:{{url}}"
+									]
+								},
+								"description": "https://spec.matrix.org/unstable/client-server-api/#delete_matrixclientr0directoryroomroomalias"
+							},
+							"response": []
+						},
+						{
 							"name": "Enable room encryption",
 							"request": {
 								"method": "PUT",
@@ -598,7 +791,7 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/join/{{roomId}}",
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/join/{{roomId}}?via={{url}}",
 									"protocol": "https",
 									"host": [
 										"{{delegatedURL}}"
@@ -609,6 +802,12 @@
 										"r0",
 										"join",
 										"{{roomId}}"
+									],
+									"query": [
+										{
+											"key": "via",
+											"value": "{{url}}"
+										}
 									]
 								}
 							},
@@ -632,6 +831,38 @@
 										"rooms",
 										"{{roomId}}",
 										"leave"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Invite user",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user_id\": \"{{userId}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/invite",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"rooms",
+										"{{roomId}}",
+										"invite"
 									]
 								}
 							},
@@ -666,6 +897,40 @@
 										"state",
 										"m.room.member",
 										"{{userId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Redact event",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"reason\": \"test\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/redact/{{eventId}}/{{$timestamp}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"rooms",
+										"{{roomId}}",
+										"redact",
+										"{{eventId}}",
+										"{{$timestamp}}"
 									]
 								}
 							},
@@ -934,6 +1199,19 @@
 											"        </tr>",
 											"    {{/if}}",
 											"",
+											"    {{#if server_acls}}",
+											"        <tr>",
+											"            <td>Server ACLs</td>",
+											"            <td>",
+											"                <ul>",
+											"                    {{#each server_acls}}",
+											"                        <li><span onclick=\"copy('{{this}}')\">{{this}}</span></li>",
+											"                    {{/each}}",
+											"                </ul>",
+											"            </td>",
+											"        </tr>",
+											"    {{/if}}",
+											"",
 											"    <tr>",
 											"        <td>Room members</td>",
 											"        <td>",
@@ -1003,6 +1281,7 @@
 											"let pl_events = [];",
 											"let power_levels = [];",
 											"let restricted_users = [];",
+											"let server_acls = [];",
 											"const tombstones = [];",
 											"",
 											"if (pm.response.code === 200) {",
@@ -1079,7 +1358,6 @@
 											"                if (stateEvent.content.join_rule === 'restricted') {",
 											"                    stateEvent.content.allow.forEach(room => {",
 											"                        allow_rooms.push({ 'room_id': `${room.type}: ${room.room_id}` });",
-											"                        console.log(allow_rooms);",
 											"                    });",
 											"                }",
 											"            }",
@@ -1180,11 +1458,14 @@
 											"                details.topic = stateEvent.content.topic;",
 											"            }",
 											"        }",
+											"",
+											"        if (stateEvent.type === 'm.room.server_acl') {",
+											"            server_acls = stateEvent.content.deny;",
+											"        }",
 											"    });",
 											"",
 											"    // Convert the aliases Set to an array that Handlebars understands",
 											"    alias_array = [...aliases];",
-											"    console.log(members);",
 											"",
 											"    // Call the visualizer template with all collected data",
 											"    const handlebarAssets = {",
@@ -1202,6 +1483,7 @@
 											"        predecessors,",
 											"        privileged_users,",
 											"        restricted_users,",
+											"        server_acls,",
 											"        tombstones,",
 											"    });",
 											"}",
@@ -1238,8 +1520,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/state/m.room.power_levels",
-									"protocol": "https",
+									"raw": "http://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/state/m.room.power_levels",
+									"protocol": "http",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -1329,7 +1611,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"msgtype\":\"m.text\",\n\t\"body\":\"some text\"\n}",
+									"raw": "{\n\t\"msgtype\":\"m.text\",\n\t\"body\":\"some_text\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1421,6 +1703,30 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "User shared rooms",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/unstable/uk.half-shot.msc2666/user/shared_rooms/{{userId}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"unstable",
+										"uk.half-shot.msc2666",
+										"user",
+										"shared_rooms",
+										"{{userId}}"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -1458,6 +1764,39 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Get call credentials",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/v3/voip/turnServer",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"v3",
+										"voip",
+										"turnServer"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				}
@@ -1487,27 +1826,27 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"const body = pm.response.json();",
+							"// const body = pm.response.json();",
 							"",
-							"if (body.errcode === 'M_CONSENT_NOT_GIVEN') {",
-							"    const url = `${body.consent_uri}&v=1.0`;",
+							"// if (body.errcode === 'M_CONSENT_NOT_GIVEN') {",
+							"//     const url = `${body.consent_uri}&v=1.0`;",
 							"",
-							"    pm.sendRequest({ url, method: 'POST' }, (error, response) => {",
-							"        if (error) {",
-							"            const errorMessage = `Unable to accept terms of service. Error: ${err}`;",
-							"            console.log(errorMessage);",
-							"            pm.test(errorMessage, () => {",
-							"                pm.expect(1).to.equal(2);",
-							"            });",
-							"        }",
+							"//     pm.sendRequest({ url, method: 'POST' }, (error, response) => {",
+							"//         if (error) {",
+							"//             const errorMessage = `Unable to accept terms of service. Error: ${err}`;",
+							"//             console.log(errorMessage);",
+							"//             pm.test(errorMessage, () => {",
+							"//                 pm.expect(1).to.equal(2);",
+							"//             });",
+							"//         }",
 							"",
-							"        const successMessage = 'Automatically accepted terms of servie for current user. Please run the query again';",
-							"        console.log(successMessage);",
-							"        pm.test(successMessage, () => {",
-							"            pm.expect(1).to.equal(1);",
-							"        });",
-							"    });",
-							"}",
+							"//         const successMessage = 'Automatically accepted terms of servie for current user. Please run the query again';",
+							"//         console.log(successMessage);",
+							"//         pm.test(successMessage, () => {",
+							"//             pm.expect(1).to.equal(1);",
+							"//         });",
+							"//     });",
+							"// }",
 							""
 						]
 					}
@@ -1520,39 +1859,6 @@
 				{
 					"name": "Account",
 					"item": [
-						{
-							"name": "Current admin account information",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/account/whoami",
-									"protocol": "https",
-									"host": [
-										"{{delegatedURL}}"
-									],
-									"path": [
-										"_matrix",
-										"client",
-										"r0",
-										"account",
-										"whoami"
-									]
-								}
-							},
-							"response": []
-						},
 						{
 							"name": "Login admin",
 							"event": [
@@ -1634,12 +1940,270 @@
 								"description": "Revokes the current admin access token\n\nhttps://spec.matrix.org/unstable/client-server-api/#post_matrixclientr0logout"
 							},
 							"response": []
+						},
+						{
+							"name": "Whoami (Admin)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/account/whoami",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"account",
+										"whoami"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
 				{
 					"name": "Media",
 					"item": [
+						{
+							"name": "matrix-media-repo",
+							"item": [
+								{
+									"name": "Estimating size of a datastore",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://{{delegatedURL}}/_matrix/media/unstable/admin/datastores/4cb40f717e7055312bc47b85922b5aa6c0ba721e/size_estimate",
+											"protocol": "https",
+											"host": [
+												"{{delegatedURL}}"
+											],
+											"path": [
+												"_matrix",
+												"media",
+												"unstable",
+												"admin",
+												"datastores",
+												"4cb40f717e7055312bc47b85922b5aa6c0ba721e",
+												"size_estimate"
+											]
+										},
+										"description": "https://github.com/turt2live/matrix-media-repo/blob/master/docs/admin.md#per-server-usage"
+									},
+									"response": []
+								},
+								{
+									"name": "Getting information on a specific background task",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://{{delegatedURL}}/_matrix/media/unstable/admin/tasks/task_id",
+											"protocol": "https",
+											"host": [
+												"{{delegatedURL}}"
+											],
+											"path": [
+												"_matrix",
+												"media",
+												"unstable",
+												"admin",
+												"tasks",
+												"task_id"
+											]
+										},
+										"description": "https://github.com/turt2live/matrix-media-repo/blob/master/docs/admin.md#per-server-usage"
+									},
+									"response": []
+								},
+								{
+									"name": "Listing all background tasks",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://{{delegatedURL}}/_matrix/media/unstable/admin/tasks/all",
+											"protocol": "https",
+											"host": [
+												"{{delegatedURL}}"
+											],
+											"path": [
+												"_matrix",
+												"media",
+												"unstable",
+												"admin",
+												"tasks",
+												"all"
+											]
+										},
+										"description": "https://github.com/turt2live/matrix-media-repo/blob/master/docs/admin.md#per-server-usage"
+									},
+									"response": []
+								},
+								{
+									"name": "Listing available datastores",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://{{delegatedURL}}/_matrix/media/unstable/admin/datastores",
+											"protocol": "https",
+											"host": [
+												"{{delegatedURL}}"
+											],
+											"path": [
+												"_matrix",
+												"media",
+												"unstable",
+												"admin",
+												"datastores"
+											]
+										},
+										"description": "https://github.com/turt2live/matrix-media-repo/blob/master/docs/admin.md#per-server-usage"
+									},
+									"response": []
+								},
+								{
+									"name": "Per-server data usage",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://{{delegatedURL}}/_matrix/media/unstable/admin/usage/{{url}}",
+											"protocol": "https",
+											"host": [
+												"{{delegatedURL}}"
+											],
+											"path": [
+												"_matrix",
+												"media",
+												"unstable",
+												"admin",
+												"usage",
+												"{{url}}"
+											]
+										},
+										"description": "https://github.com/turt2live/matrix-media-repo/blob/master/docs/admin.md#per-server-usage"
+									},
+									"response": []
+								},
+								{
+									"name": "Per-user data usage",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://{{delegatedURL}}/_matrix/media/unstable/admin/usage/{{url}}/users",
+											"protocol": "https",
+											"host": [
+												"{{delegatedURL}}"
+											],
+											"path": [
+												"_matrix",
+												"media",
+												"unstable",
+												"admin",
+												"usage",
+												"{{url}}",
+												"users"
+											]
+										},
+										"description": "https://github.com/turt2live/matrix-media-repo/blob/master/docs/admin.md#per-server-usage"
+									},
+									"response": []
+								},
+								{
+									"name": "Quarantine media - matrix-media-repo",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "https://{{delegatedURL}}/_matrix/media/unstable/admin/quarantine/{{url}}/mediaId",
+											"protocol": "https",
+											"host": [
+												"{{delegatedURL}}"
+											],
+											"path": [
+												"_matrix",
+												"media",
+												"unstable",
+												"admin",
+												"quarantine",
+												"{{url}}",
+												"mediaId"
+											]
+										},
+										"description": "https://github.com/turt2live/matrix-media-repo/blob/master/docs/admin.md#quarantine-a-specific-record"
+									},
+									"response": []
+								},
+								{
+									"name": "Purge quarantined media",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "https://{{delegatedURL}}/_matrix/media/unstable/admin/purge/quarantined",
+											"protocol": "https",
+											"host": [
+												"{{delegatedURL}}"
+											],
+											"path": [
+												"_matrix",
+												"media",
+												"unstable",
+												"admin",
+												"purge",
+												"quarantined"
+											]
+										},
+										"description": "https://github.com/turt2live/matrix-media-repo/blob/master/docs/admin.md#quarantine-a-specific-record"
+									},
+									"response": []
+								}
+							],
+							"description": "This directory does not inherit authentication from parent, but authenticates using a query parameter and mmr shared admin secret instead. This is set using Pre-request Script on the folder",
+							"auth": {
+								"type": "noauth"
+							},
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"// Append ?access_token=your_access_token to the URL of all requests",
+											"pm.request.url.query.add('access_token=' + pm.environment.get('mmrAdminSecret'));",
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						},
 						{
 							"name": "Protect media from quarantine",
 							"request": {
@@ -1661,31 +2225,6 @@
 									]
 								},
 								"description": "https://matrix-org.github.io/synapse/latest/admin_api/media_admin_api.html#protecting-media-from-being-quarantined"
-							},
-							"response": []
-						},
-						{
-							"name": "Quarantine media - matrix-media-repo",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/media/unstable/admin/quarantine/{{url}}/mediaId",
-									"protocol": "https",
-									"host": [
-										"{{delegatedURL}}"
-									],
-									"path": [
-										"_matrix",
-										"media",
-										"unstable",
-										"admin",
-										"quarantine",
-										"{{url}}",
-										"mediaId"
-									]
-								},
-								"description": "https://github.com/turt2live/matrix-media-repo/blob/master/docs/admin.md#quarantine-a-specific-record"
 							},
 							"response": []
 						},
@@ -1752,7 +2291,39 @@
 							"response": []
 						},
 						{
-							"name": "Delete alias",
+							"name": "Add user to room",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user_id\": \"@user:{{url}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/join/{{roomId}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"join",
+										"{{roomId}}"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/rooms.html#make-room-admin-api"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete alias (Admin)",
 							"request": {
 								"method": "DELETE",
 								"header": [],
@@ -1814,7 +2385,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"block\": true,\n    \"purge\": true\n}",
+									"raw": "{\n    \"block\": false,\n    \"purge\": true\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1822,7 +2393,7 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/rooms/{{roomId}}",
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v2/rooms/{{roomId}}",
 									"protocol": "https",
 									"host": [
 										"{{delegatedURL}}"
@@ -1830,9 +2401,33 @@
 									"path": [
 										"_synapse",
 										"admin",
-										"v1",
+										"v2",
 										"rooms",
 										"{{roomId}}"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/rooms.html#delete-room-api"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete room status",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v2/rooms/{{roomId}}/delete_status",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v2",
+										"rooms",
+										"{{roomId}}",
+										"delete_status"
 									]
 								},
 								"description": "https://matrix-org.github.io/synapse/latest/admin_api/rooms.html#delete-room-api"
@@ -1943,7 +2538,7 @@
 											"            </tr>",
 											"",
 											"            <tr>",
-											"                <th colspan=\"4\">Events before<th>",
+											"                <th colspan=\"3\">Events before<th>",
 											"            </tr>",
 											"",
 											"            {{#each eventsBefore}}",
@@ -1956,7 +2551,7 @@
 											"            {{/each}}",
 											"",
 											"            <tr>",
-											"                <th colspan=\"4\">Selected event<th>",
+											"                <th colspan=\"3\">Selected event<th>",
 											"            </tr>",
 											"",
 											"            <tr>",
@@ -1967,7 +2562,7 @@
 											"            </tr>",
 											"",
 											"            <tr>",
-											"                <th colspan=\"4\">Events after<th>",
+											"                <th colspan=\"3\">Events after<th>",
 											"            </tr>",
 											"",
 											"            {{#each eventsAfter}}",
@@ -2259,6 +2854,19 @@
 											"        </tr>",
 											"    {{/if}}",
 											"",
+											"    {{#if server_acls}}",
+											"        <tr>",
+											"            <td>Server ACLs</td>",
+											"            <td>",
+											"                <ul>",
+											"                    {{#each server_acls}}",
+											"                        <li><span onclick=\"copy('{{this}}')\">{{this}}</span></li>",
+											"                    {{/each}}",
+											"                </ul>",
+											"            </td>",
+											"        </tr>",
+											"    {{/if}}",
+											"",
 											"    <tr>",
 											"        <td>Room members</td>",
 											"        <td>",
@@ -2328,6 +2936,7 @@
 											"let pl_events = [];",
 											"let power_levels = [];",
 											"let restricted_users = [];",
+											"let server_acls = [];",
 											"const tombstones = [];",
 											"",
 											"if (pm.response.code === 200) {",
@@ -2370,7 +2979,6 @@
 											"        if (stateEvent.type === 'm.room.create') {",
 											"            details.room_id = stateEvent.room_id;",
 											"            details.room_creator = stateEvent.content.creator;",
-											"            pm.environment.set('userId', stateEvent.content.creator);",
 											"            details.room_creation_time = new Date(stateEvent.origin_server_ts);",
 											"            details.room_version = stateEvent.content.room_version;",
 											"",
@@ -2404,7 +3012,6 @@
 											"                if (stateEvent.content.join_rule === 'restricted') {",
 											"                    stateEvent.content.allow.forEach(room => {",
 											"                        allow_rooms.push({ 'room_id': `${room.type}: ${room.room_id}` });",
-											"                        console.log(allow_rooms);",
 											"                    });",
 											"                }",
 											"            }",
@@ -2505,11 +3112,14 @@
 											"                details.topic = stateEvent.content.topic;",
 											"            }",
 											"        }",
+											"",
+											"        if (stateEvent.type === 'm.room.server_acl') {",
+											"            server_acls = stateEvent.content.deny;",
+											"        }",
 											"    });",
 											"",
 											"    // Convert the aliases Set to an array that Handlebars understands",
 											"    alias_array = [...aliases];",
-											"    console.log(members);",
 											"",
 											"    // Call the visualizer template with all collected data",
 											"    const handlebarAssets = {",
@@ -2527,6 +3137,7 @@
 											"        predecessors,",
 											"        privileged_users,",
 											"        restricted_users,",
+											"        server_acls,",
 											"        tombstones,",
 											"    });",
 											"}",
@@ -2555,28 +3166,6 @@
 									]
 								},
 								"description": "https://matrix-org.github.io/synapse/latest/admin_api/rooms.html#room-state-api"
-							},
-							"response": []
-						},
-						{
-							"name": "Rooms all",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/rooms",
-									"protocol": "https",
-									"host": [
-										"{{delegatedURL}}"
-									],
-									"path": [
-										"_synapse",
-										"admin",
-										"v1",
-										"rooms"
-									]
-								},
-								"description": "https://matrix-org.github.io/synapse/latest/admin_api/rooms.html#list-room-api"
 							},
 							"response": []
 						},
@@ -2668,6 +3257,10 @@
 											"        <td><span onclick=\"copy('{{room.state_events}}')\">{{room.state_events}}</span></td>",
 											"    </tr>",
 											"    <tr>",
+											"        <td>Room Complexity</td>",
+											"        <td><span onclick=\"copy('{{room.complexity}}')\">{{room.complexity}}</span></td>",
+											"    </tr>",
+											"    <tr>",
 											"        <td>Avatar</td>",
 											"        <td>",
 											"            {{#if room.avatar}}",
@@ -2713,6 +3306,7 @@
 											"    room.history_visibility = room_strings.history_visibility[room.history_visibility] || room.history_visibility;",
 											"    room.avatar = (room.avatar) ? room.avatar.replace('mxc://', `https://${pm.environment.get('delegatedURL')}/_matrix/media/r0/download/`) : null;",
 											"    room.topic = room.topic || 'none';",
+											"    room.complexity = (room.state_events / 500).toFixed(2);",
 											"",
 											"    const handlebarAssets = {",
 											"        'javascriptURL': `${pm.globals.get('assetsURL')}script.js`,",
@@ -2749,12 +3343,171 @@
 								"description": "https://matrix-org.github.io/synapse/latest/admin_api/rooms.html#room-state-api"
 							},
 							"response": []
+						},
+						{
+							"name": "Rooms all",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/rooms",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"rooms"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/rooms.html#list-room-api"
+							},
+							"response": []
 						}
 					]
 				},
 				{
 					"name": "Users",
 					"item": [
+						{
+							"name": "Registration Tokens",
+							"item": [
+								{
+									"name": "Create token",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    // \"token\": \"0M-9jbkf2t_Tgiw1\",\n    \"uses_allowed\": 10,\n    \"expiry_time\": 1640995200000,\n    \"length\": 64\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{delegatedURL}}/_synapse/admin/v1/registration_tokens/new",
+											"protocol": "https",
+											"host": [
+												"{{delegatedURL}}"
+											],
+											"path": [
+												"_synapse",
+												"admin",
+												"v1",
+												"registration_tokens",
+												"new"
+											]
+										},
+										"description": "https://matrix-org.github.io/synapse/latest/usage/administration/admin_api/registration_tokens.html#create-token"
+									},
+									"response": []
+								},
+								{
+									"name": "Delete token",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "https://{{delegatedURL}}/_synapse/admin/v1/registration_tokens/wxyz",
+											"protocol": "https",
+											"host": [
+												"{{delegatedURL}}"
+											],
+											"path": [
+												"_synapse",
+												"admin",
+												"v1",
+												"registration_tokens",
+												"wxyz"
+											]
+										},
+										"description": "https://matrix-org.github.io/synapse/latest/usage/administration/admin_api/registration_tokens.html#update-token"
+									},
+									"response": []
+								},
+								{
+									"name": "Get one token",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://{{delegatedURL}}/_synapse/admin/v1/registration_tokens/abcd",
+											"protocol": "https",
+											"host": [
+												"{{delegatedURL}}"
+											],
+											"path": [
+												"_synapse",
+												"admin",
+												"v1",
+												"registration_tokens",
+												"abcd"
+											]
+										},
+										"description": "https://matrix-org.github.io/synapse/latest/usage/administration/admin_api/registration_tokens.html#get-one-token"
+									},
+									"response": []
+								},
+								{
+									"name": "List all tokens",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://{{delegatedURL}}/_synapse/admin/v1/registration_tokens",
+											"protocol": "https",
+											"host": [
+												"{{delegatedURL}}"
+											],
+											"path": [
+												"_synapse",
+												"admin",
+												"v1",
+												"registration_tokens"
+											]
+										},
+										"description": "https://matrix-org.github.io/synapse/latest/usage/administration/admin_api/registration_tokens.html#list-all-tokens"
+									},
+									"response": []
+								},
+								{
+									"name": "Update token",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"uses_allowed\": 10,\n    \"expiry_time\": 1640995200000\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{delegatedURL}}/_synapse/admin/v1/registration_tokens/defg",
+											"protocol": "https",
+											"host": [
+												"{{delegatedURL}}"
+											],
+											"path": [
+												"_synapse",
+												"admin",
+												"v1",
+												"registration_tokens",
+												"defg"
+											]
+										},
+										"description": "https://matrix-org.github.io/synapse/latest/usage/administration/admin_api/registration_tokens.html#update-token"
+									},
+									"response": []
+								}
+							]
+						},
 						{
 							"name": "Create or modify Account",
 							"event": [
@@ -2775,7 +3528,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"password\": \"user_password\",\n    \"displayname\": \"User\",\n    \"threepids\": [\n        {\n            \"medium\": \"email\",\n            \"address\": \"<user_mail_1>\"\n        },\n        {\n            \"medium\": \"email\",\n            \"address\": \"<user_mail_2>\"\n        }\n    ],\n    \"avatar_url\": \"<avatar_url>\",\n    \"admin\": false,\n    \"deactivated\": false\n}\n",
+									"raw": "{\n    \"password\": \"user_password\",\n    \"displayname\": \"User\",\n    \"threepids\": [\n        {\n            \"medium\": \"email\",\n            \"address\": \"<user_mail_1>\"\n        },\n        {\n            \"medium\": \"email\",\n            \"address\": \"<user_mail_2>\"\n        }\n    ],\n    \"external_ids\": [\n        {\n            \"auth_provider\": \"<provider1>\",\n            \"external_id\": \"<user_id_provider_1>\"\n        },\n        {\n            \"auth_provider\": \"<provider2>\",\n            \"external_id\": \"<user_id_provider_2>\"\n        }\n    ],\n    \"avatar_url\": \"<avatar_url>\",\n    \"admin\": false,\n    \"deactivated\": false\n}\n",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2825,38 +3578,6 @@
 									]
 								},
 								"description": "https://spec.matrix.org/unstable/client-server-api/#get_matrixclientr0roomsroomidaliases"
-							},
-							"response": []
-						},
-						{
-							"name": "Deactivate account",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"erase\": true\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/deactivate/{{userId}}",
-									"protocol": "https",
-									"host": [
-										"{{delegatedURL}}"
-									],
-									"path": [
-										"_synapse",
-										"admin",
-										"v1",
-										"deactivate",
-										"{{userId}}"
-									]
-								},
-								"description": "https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#deactivate-account"
 							},
 							"response": []
 						},
@@ -3175,6 +3896,108 @@
 							"response": []
 						},
 						{
+							"name": "Deactivate account",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"erase\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/deactivate/{{userId}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"deactivate",
+										"{{userId}}"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#deactivate-account"
+							},
+							"response": []
+						},
+						{
+							"name": "Account Data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/users/{{userId}}/accountdata",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"users",
+										"{{userId}}",
+										"accountdata"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#query-user-account"
+							},
+							"response": []
+						},
+						{
+							"name": "List room memberships of a user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/users/{{userId}}/joined_rooms",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"users",
+										"{{userId}}",
+										"joined_rooms"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#query-user-account"
+							},
+							"response": []
+						},
+						{
 							"name": "User devices",
 							"event": [
 								{
@@ -3217,6 +4040,9 @@
 									"script": {
 										"exec": [
 											"const template = `",
+											"    <link rel=\"stylesheet\" type=\"text/css\" href=\"{{handlebarAssets.styleURL}}\" />",
+											"    <script src=\"{{handlebarAssets.javascriptURL}}\"></script>",
+											"",
 											"    <table bgcolor=\"#FFFFFF\">",
 											"        <tr>",
 											"            <th>Name</th>",
@@ -3251,9 +4077,16 @@
 											"    user.creation_time = creation_time;",
 											"})",
 											"",
+											"// Call the visualizer template with all collected data",
+											"const handlebarAssets = {",
+											"    'javascriptURL': `${pm.globals.get('assetsURL')}script.js`,",
+											"    'styleURL': `${pm.globals.get('assetsURL')}style.css`,",
+											"}",
+											"",
 											"pm.visualizer.set(template, {",
 											"    // Pass the response body parsed as JSON as `data`",
-											"    users",
+											"    handlebarAssets,",
+											"    users,",
 											"});",
 											""
 										],
@@ -3265,7 +4098,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v2/users",
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v2/users?order_by=creation_ts&dir=b&guests=false&deactivated=true",
 									"protocol": "https",
 									"host": [
 										"{{delegatedURL}}"
@@ -3281,6 +4114,22 @@
 											"key": "user_id",
 											"value": "localpart",
 											"disabled": true
+										},
+										{
+											"key": "order_by",
+											"value": "creation_ts"
+										},
+										{
+											"key": "dir",
+											"value": "b"
+										},
+										{
+											"key": "guests",
+											"value": "false"
+										},
+										{
+											"key": "deactivated",
+											"value": "true"
 										}
 									]
 								},
@@ -3293,6 +4142,40 @@
 				{
 					"name": "Server",
 					"item": [
+						{
+							"name": "Background updates status",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/background_updates/status",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"background_updates",
+										"status"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/event_reports.html#show-details-of-a-specific-event-report"
+							},
+							"response": []
+						},
 						{
 							"name": "Event report",
 							"event": [
@@ -3362,6 +4245,49 @@
 									]
 								},
 								"description": "https://matrix-org.github.io/synapse/latest/admin_api/event_reports.html#show-reported-events"
+							},
+							"response": []
+						},
+						{
+							"name": "Recalculate the user directory",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"job_name\": \"regenerate_directory\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/background_updates/start_job",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"background_updates",
+										"start_job"
+									]
+								},
+								"description": "[https://matrix-org.github.io/synapse/latest/usage/administration/admin_api/background_updates.html#run](https://matrix-org.github.io/synapse/latest/usage/administration/admin_api/background_updates.html#run)"
 							},
 							"response": []
 						}
