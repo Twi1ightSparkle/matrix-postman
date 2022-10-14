@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "d379cec4-da67-478c-9a75-ba656d726e37",
+		"_postman_id": "34e93492-ce5b-4707-b4d4-2cc9cb36a301",
 		"name": "Matrix",
-		"description": "Add `assetsURL = https://example.com/postman_assets/` as a global environment variable\n\n## Sample assetsURL assets\nhttps://example.com/postman_assets/script.js\n```javascript\nfunction copy(text, info = false) {\n    if (info === 'room') {\n        text = encodeURIComponent(text);\n        text = 'https://example.com/matrixinfo/room=' + text;\n    }\n    else if (info == 'user') {\n        text = encodeURIComponent(text);\n        text = 'https://example.com/matrixinfo/user=' + text;\n    }\n    navigator.clipboard.writeText(text)\n}\n\nfunction save(text, destination) {\n    pm.environment.set(destination, text);\n}\n```\n\nhttps://example.com/postman_assets/style.css\n\nStyles the visualizer the same as default Postman dark mode\n```css\nbody, p, th, td {\n    color: #d4d4d4;\n}\nbody {\n    background-color: #212121;\n}\ntable {\n    background: #212121;\n}\ntable, th, td {\n    padding: 10px;\n    border: 1px solid #dcddde;\n    border-collapse: collapse;\n}\nspan {\n    cursor: pointer;\n}    \n.pointer {\n    cursor: pointer;\n}\n```",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"description": "See https://twi1ightsparkle.github.io/matrix-postman",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15545576"
 	},
 	"item": [
 		{
@@ -96,6 +97,51 @@
 					"response": []
 				},
 				{
+					"name": "Query profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{delegatedURL}}/_matrix/federation/v1/query/profile?user_id=twilight",
+							"protocol": "https",
+							"host": [
+								"{{delegatedURL}}"
+							],
+							"path": [
+								"_matrix",
+								"federation",
+								"v1",
+								"query",
+								"profile"
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "twilight",
+									"description": "Required: The user ID to query."
+								},
+								{
+									"key": "field",
+									"value": "",
+									"description": "One of: [displayname avatar_url]",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Signing key other server",
 					"request": {
 						"method": "GET",
@@ -119,7 +165,7 @@
 					"response": []
 				},
 				{
-					"name": "Signign key this server",
+					"name": "Signing key this server",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -272,7 +318,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"identifier\": {\n    \"type\": \"m.id.user\",\n    \"user\": \"localuser\"\n  },\n  \"type\": \"m.login.password\",\n  \"password\": \"secret\"\n}\n",
+									"raw": "{\n    \"type\": \"m.login.password\",\n    \"identifier\": {\n        \"type\": \"m.id.user\",\n        \"user\": \"example\"\n    },\n    \"password\": \"wordpass\",\n    \"initial_device_display_name\": \"device name\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -395,46 +441,15 @@
 							"response": []
 						},
 						{
-							"name": "Sync",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/account/whoami",
-									"protocol": "https",
-									"host": [
-										"{{delegatedURL}}"
-									],
-									"path": [
-										"_matrix",
-										"client",
-										"r0",
-										"account",
-										"whoami"
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "Whoami (CS)",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
-											""
+											"if (pm.response.code === 200) {",
+											"    pm.environment.set('userId', pm.response.json().user_id);",
+											"}"
 										],
 										"type": "text/javascript"
 									}
@@ -646,7 +661,7 @@
 					"name": "Rooms",
 					"item": [
 						{
-							"name": "Add alias to room",
+							"name": "Add alias to room (CS)",
 							"request": {
 								"method": "PUT",
 								"header": [],
@@ -703,7 +718,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"sampleRoom\",\n    \"topic\": \"sampleRoom\",\n    \"visibility\": \"private\",\n    \"room_alias_name\": \"sampleRoom\",\n    \"preset\": \"private_chat\",\n    // \"room_id\": \"!sampleRoom:{{url}}\",\n    \"room_version\": \"8\",\n    \"creation_content\": {\n        \"predecessor\": {\n            \"room_id\": \"!roomIdOfOldRoom\",\n            \"event_id\": \"$tombstoneEventIdInOldRoom\"\n        }\n    },\n    \"initial_state\": [\n        {\n            \"type\": \"m.room.guest_access\",\n            \"state_key\": \"\",\n            \"content\": {\n                \"guest_access\": \"can_join\"\n            }\n        },\n        {\n            \"type\": \"m.room.encryption\",\n            \"state_key\": \"\",\n            \"content\": {\n                \"algorithm\": \"m.megolm.v1.aes-sha2\"\n            }\n        }\n    ]\n}\n",
+									"raw": "{\n    \"name\": \"sampleRoom\",\n    \"topic\": \"sampleRoom\",\n    \"visibility\": \"private\",\n    \"room_alias_name\": \"sampleRoom\",\n    \"preset\": \"private_chat\",\n    // \"room_id\": \"!sampleRoom:{{url}}\",\n    \"room_version\": \"8\",\n    \"creation_content\": {\n        \"predecessor\": {\n            \"room_id\": \"!roomIdOfOldRoom\",\n            \"event_id\": \"$tombstoneEventIdInOldRoom\"\n        },\n        \"m.federate\": true\n    },\n    \"initial_state\": [\n        {\n            \"type\": \"m.room.guest_access\",\n            \"state_key\": \"\",\n            \"content\": {\n                \"guest_access\": \"can_join\"\n            }\n        },\n        {\n            \"type\": \"m.room.encryption\",\n            \"state_key\": \"\",\n            \"content\": {\n                \"algorithm\": \"m.megolm.v1.aes-sha2\"\n            }\n        }\n    ]\n}\n",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -780,6 +795,41 @@
 										"state",
 										"m.room.encryption",
 										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get event",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/v3/rooms/{{roomId}}/event/{{eventId}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"v3",
+										"rooms",
+										"{{roomId}}",
+										"event",
+										"{{eventId}}"
 									]
 								}
 							},
@@ -1705,6 +1755,38 @@
 							"response": []
 						},
 						{
+							"name": "Upgrade room",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"new_version\": \"9\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/v3/rooms/{{roomId}}/upgrade",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"v3",
+										"rooms",
+										"{{roomId}}",
+										"upgrade"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "User shared rooms",
 							"request": {
 								"method": "GET",
@@ -1750,7 +1832,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/capabilities",
+									"raw": "https://{{delegatedURL}}/_matrix/client/v3/capabilities",
 									"protocol": "https",
 									"host": [
 										"{{delegatedURL}}"
@@ -1758,8 +1840,39 @@
 									"path": [
 										"_matrix",
 										"client",
-										"r0",
+										"v3",
 										"capabilities"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Spec versions",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/versions",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"versions"
 									]
 								}
 							},
@@ -2205,6 +2318,36 @@
 							]
 						},
 						{
+							"name": "Delete all media uploaded by a user",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/users/{{userId}}/media?limit=2500",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"users",
+										"{{userId}}",
+										"media"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "2500"
+										}
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/media_admin_api.html#quarantining-media-by-id"
+							},
+							"response": []
+						},
+						{
 							"name": "Protect media from quarantine",
 							"request": {
 								"method": "POST",
@@ -2259,7 +2402,7 @@
 					"name": "Rooms",
 					"item": [
 						{
-							"name": "Add alias to room",
+							"name": "Add alias to room (Admin)",
 							"request": {
 								"method": "PUT",
 								"header": [],
@@ -2411,7 +2554,31 @@
 							"response": []
 						},
 						{
-							"name": "Delete room status",
+							"name": "Delete room status by Delete ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v2/rooms/delete_status/{{deleteId}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v2",
+										"rooms",
+										"delete_status",
+										"{{deleteId}}"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/rooms.html#delete-room-api"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete room status by Room ID",
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -2623,7 +2790,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/aliases",
+									"raw": "https://{{delegatedURL}}/_matrix/client/v3/rooms/{{roomId}}/aliases",
 									"protocol": "https",
 									"host": [
 										"{{delegatedURL}}"
@@ -2631,7 +2798,7 @@
 									"path": [
 										"_matrix",
 										"client",
-										"r0",
+										"v3",
 										"rooms",
 										"{{roomId}}",
 										"aliases"
@@ -3237,15 +3404,15 @@
 											"        <td><span onclick=\"copy('{{room.federatable}}')\">{{room.federatable}}</span></td>",
 											"    </tr>",
 											"    <tr>",
-											"        <td>Public</td>",
+											"        <td title=\"Publish this room to the public in serverDomain.com's room directory?\">In Room directory</td>",
 											"        <td><span onclick=\"copy('{{room.public}}')\">{{room.public}}</span></td>",
 											"    </tr>",
 											"    <tr>",
-											"        <td>Join Rules</td>",
+											"        <td title=\"Access. Decide who can join {{room.name}}.\">Join Rules</td>",
 											"        <td><span onclick=\"copy('{{room.join_rules}}')\">{{room.join_rules}}</span></td>",
 											"    </tr>",
 											"    <tr>",
-											"        <td>Guest Access</td>",
+											"        <td title=\"Access. Show advanced. Enable guest access\">Guest Access</td>",
 											"        <td><span onclick=\"copy('{{room.guest_access}}')\">{{room.guest_access}}</span></td>",
 											"    </tr>",
 											"    <tr>",
@@ -3757,10 +3924,6 @@
 											"        <td><span onclick=\"copy('{{user.name}}')\">{{user.name}}</span></td>",
 											"    </tr>",
 											"    <tr>",
-											"        <td>Password set</td>",
-											"        <td><span onclick=\"copy('{{user.password}}')\">{{user.password}}</span></td>",
-											"    </tr>",
-											"    <tr>",
 											"        <td>Is guest</td>",
 											"        <td><span onclick=\"copy('{{user.is_guest}}')\">{{user.is_guest}}</span></td>",
 											"    </tr>",
@@ -3826,17 +3989,22 @@
 											"    ",
 											"    <tr>",
 											"        <td>External IDs</td>",
-											"        <td><span onclick=\"copy('{{user.external_ids}}')\">{{user.external_ids}}</span></td>",
+											"        <td>",
+											"            {{#each external_ids}}",
+											"                Auth provider: <span onclick=\"copy('{{auth_provider}}')\">{{auth_provider}}</span><br />",
+											"                External ID: <span onclick=\"copy('{{external_id}}')\">{{external_id}}</span><br />",
+											"            {{/each}}",
+											"        </td>",
 											"    </tr>",
 											"</table>",
 											"`;",
 											"",
 											"const threepids = [];",
+											"const external_ids = [];",
 											"",
 											"if (pm.response.code === 200) {",
 											"    const user = pm.response.json();",
 											"",
-											"    user.password = (user.password_hash) ? 'Yes' : 'No?';",
 											"    user.is_guest = (user.is_guest === 0) ? 'No' : 'Yes';",
 											"    user.admin = (user.admin === 0) ? 'No' : 'Yes';",
 											"    user.consent_version = (user.consent_version) || 'none';",
@@ -3847,7 +4015,6 @@
 											"    user.deactivated = (user.deactivated === 0) ? 'No' : 'Yes';",
 											"    user.shadow_banned = (user.shadow_banned) ? 'Yes' : 'No';",
 											"    user.avatar_url = (user.avatar_url) ? user.avatar_url.replace('mxc://', `https://${pm.environment.get('delegatedURL')}/_matrix/media/r0/download/`) : null;",
-											"    user.external_ids = JSON.stringify(user.external_ids);",
 											"",
 											"    user.threepids.forEach(pid => {",
 											"        threepids.push({",
@@ -3858,14 +4025,22 @@
 											"        });",
 											"    });",
 											"",
+											"    user.external_ids.forEach(id => {",
+											"        external_ids.push({",
+											"            'auth_provider': id.auth_provider,",
+											"            'external_id': id.external_id,",
+											"        });",
+											"    });",
+											"",
 											"    const handlebarAssets = {",
 											"        'javascriptURL': `${pm.globals.get('assetsURL')}script.js`,",
 											"        'styleURL': `${pm.globals.get('assetsURL')}style.css`,",
-											"    }",
+											"    };",
 											"    pm.visualizer.set(template, {",
 											"        handlebarAssets,",
 											"        user,",
 											"        threepids,",
+											"        external_ids,",
 											"    });",
 											"}",
 											""
@@ -3963,6 +4138,41 @@
 							"response": []
 						},
 						{
+							"name": "Check if user is admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/users/{{userId}}/admin",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"users",
+										"{{userId}}",
+										"admin"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#query-user-account"
+							},
+							"response": []
+						},
+						{
 							"name": "List room memberships of a user",
 							"event": [
 								{
@@ -4046,9 +4256,9 @@
 											"    <table bgcolor=\"#FFFFFF\">",
 											"        <tr>",
 											"            <th>Name</th>",
-											"            <th>Guest</th>",
-											"            <th>Admin</th>",
-											"            <th>Active</th>",
+											"            <th>Guest User</th>",
+											"            <th>Synapse Admin</th>",
+											"            <th>Deactivated</th>",
 											"            <th>Creation time</th>",
 											"            <th>Shadow banned</th>",
 											"            <th>Display name</th>",
@@ -4074,7 +4284,11 @@
 											"users.forEach(user => {",
 											"    const creation_ts = user.creation_ts;",
 											"    const creation_time = new Date(creation_ts);",
+											"    user.admin = user.admin ? 'Yes' : 'No';",
 											"    user.creation_time = creation_time;",
+											"    user.deactivated = user.deactivated ? 'Yes' : 'No';",
+											"    user.is_guest = user.is_guest ? 'Yes' : 'No';",
+											"    user.shadow_banned = user.shadow_banned ? 'Yes' : 'No';",
 											"})",
 											"",
 											"// Call the visualizer template with all collected data",
@@ -4130,6 +4344,11 @@
 										{
 											"key": "deactivated",
 											"value": "true"
+										},
+										{
+											"key": "from",
+											"value": "100",
+											"disabled": true
 										}
 									]
 								},
@@ -4300,6 +4519,275 @@
 					{
 						"key": "token",
 						"value": "{{adminToken}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Sydent",
+			"item": [
+				{
+					"name": "Register",
+					"item": [
+						{
+							"name": "1. Request OpenID access token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {",
+											"    pm.environment.set('openidToken', pm.response.json().access_token);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{userToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/user/{{userId}}/openid/request_token",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"user",
+										"{{userId}}",
+										"openid",
+										"request_token"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2. Register for an IS access token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {",
+											"    pm.environment.set('sydentToken', pm.response.json().access_token);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"access_token\": \"{{openidToken}}\",\n    \"token_type\": \"Bearer\",\n    \"matrix_server_name\": \"{{url}}\",\n    \"expires_in\": 3600\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://vector.im/_matrix/identity/v2/account/register",
+									"protocol": "https",
+									"host": [
+										"vector",
+										"im"
+									],
+									"path": [
+										"_matrix",
+										"identity",
+										"v2",
+										"account",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3. Accept IS terms",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{sydentToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user_accepts\": [\n        \"https://vector.im/identity-server-privacy-notice-1\"\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://vector.im/_matrix/identity/v2/terms",
+									"protocol": "https",
+									"host": [
+										"vector",
+										"im"
+									],
+									"path": [
+										"_matrix",
+										"identity",
+										"v2",
+										"terms"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "noauth"
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Algoritm details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://vector.im/_matrix/identity/v2/hash_details",
+							"protocol": "https",
+							"host": [
+								"vector",
+								"im"
+							],
+							"path": [
+								"_matrix",
+								"identity",
+								"v2",
+								"hash_details"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Look up email",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"addresses\": [\n        \"someone@domain.com email\"\n    ],\n    \"algorithm\": \"none\",\n    \"pepper\": \"ab123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://vector.im/_matrix/identity/v2/lookup",
+							"protocol": "https",
+							"host": [
+								"vector",
+								"im"
+							],
+							"path": [
+								"_matrix",
+								"identity",
+								"v2",
+								"lookup"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{sydentToken}}",
 						"type": "string"
 					}
 				]

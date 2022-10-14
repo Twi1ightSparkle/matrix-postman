@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>matrix-postman</title>
+        <link rel="icon" type="image/x-icon" href="favicon.png" />
+        <link href="./bootstrap/bootstrap.min.css" rel="stylesheet" />
+        <link href="./style.css" rel="stylesheet" />
+    </head>
+
+    <body class="d-flex flex-column h-100">
+        <div class="container mt-5">
+            <div class="row mb-3">
+                <div class="col">
+                    <h1>Matrix collection for Postman</h1>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-4">
+                    <a href="./postman_assets/Matrix.postman_collection.json" download>
+                        <button class="btn btn-primary">Download collection</button>
+                    </a>
+                </div>
+                <div class="col">
+                    <a
+                        href="https://github.com/Twi1ightSparkle/matrix-postman"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <button class="btn btn-primary">Source on GitHub</button>
+                    </a>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col">
+                    <h2>Setup</h2>
+                    <ol>
+                        <li>Download the collection</li>
+                        <li>
+                            Install
+                            <a href="https://www.postman.com/" target="_blank" rel="noopener noreferrer">Postman</a>
+                        </li>
+                        <li>Create a workspace</li>
+                        <li>Click Import</li>
+                        <li>Select <code>Matrix.postman_collection.json</code></li>
+                        <li>
+                            Create a global variable with name <code>assetsURL</code> and value
+                            <code>https://twi1ightsparkle.github.io/matrix-postman/postman_assets/</code>
+                        </li>
+                        <li>
+                            Create an environment with the following variables
+                            <ul>
+                                <li>
+                                    <code>url</code> - this is the homeserver domain (the domain in your Matrix IDs)
+                                </li>
+                                <li><code>delegatedURL</code> - this is the domain where your homeserver is exposed</li>
+                                <li><code>adminToken</code> - type secret</li>
+                                <li><code>userId</code></li>
+                                <li><code>userToken</code> - type secret</li>
+                                <li><code>roomId</code></li>
+                                <li><code>eventId</code></li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col">
+                    <div class="h2">Customize the style and scripts</div>
+                    <p>
+                        Download <code>src/postman_assets/script.js</code> or
+                        <code>src/postman_assets/style.js</code> from the
+                        <a
+                            href="https://github.com/Twi1ightSparkle/matrix-postman"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            >GitHub repository</a
+                        >, edit as required, then host them online. Next, update the URL in the global
+                        <code>assetsURL</code> variable.
+                    </p>
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col">
+                    <div class="h2">Screenshots</div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col">
+                    <div id="screenshotCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="images/globals.png" class="d-block w-100" alt="Global variables" />
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>Global variables</h5>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="images/env.png" class="d-block w-100" alt="Environment variables" />
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>Environment variables</h5>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="images/login_admin.png" class="d-block w-100" alt="Admin login" />
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>Admin Login</h5>
+                                    <p>
+                                        Log in as an admin user. Automatically stores the access token in the current
+                                        environment
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="images/user_one.png" class="d-block w-100" alt="User information" />
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>User information</h5>
+                                    <p>Get information about a user. Nicely formatted into a table</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="images/resolve_alias.png" class="d-block w-100" alt="Resolve alias" />
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>Resolve an alias to room ID</h5>
+                                    <p>Automatically stores the room ID in the current environment</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="images/room_summary.png" class="d-block w-100" alt="Room summary" />
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>Room summary</h5>
+                                    <p>Basic room information. Nicely formatted into a table</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="images/room_state.png" class="d-block w-100" alt="Room state" />
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>Room state</h5>
+                                    <p>Get the full room state. Nicely formatted into a table</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button
+                            class="carousel-control-prev"
+                            type="button"
+                            data-bs-target="#screenshotCarousel"
+                            data-bs-slide="prev"
+                        >
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button
+                            class="carousel-control-next"
+                            type="button"
+                            data-bs-target="#screenshotCarousel"
+                            data-bs-slide="next"
+                        >
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col">
+                    <div class="h2">Why not share the collection on Postman?</div>
+                    <p>Because it's a pain to maintain.</p>
+                </div>
+            </div>
+        </div>
+
+        <script src="./bootstrap/bootstrap.bundle.min.js"></script>
+    </body>
+</html>
