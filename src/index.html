@@ -52,7 +52,8 @@
                             value <code>https://twi1ightsparkle.github.io/matrix-postman/postman_assets/</code>
                         </li>
                         <li>
-                            Create an environment with the following variables
+                            Create an environment with the following variables. You don't need to create all, some are
+                            only used in one, or a few requests. The top six are the most commonly used.
                             <ul>
                                 <li>
                                     <code>url</code> - this is the homeserver domain (the domain in your Matrix IDs)
@@ -62,7 +63,17 @@
                                 <li><code>userId</code></li>
                                 <li><code>userToken</code> - type secret</li>
                                 <li><code>roomId</code></li>
+                                <li><code>3pid</code></li>
+                                <li><code>3pidType</code></li>
+                                <li><code>authProvider</code></li>
+                                <li><code>community</code></li>
+                                <li><code>datastore</code></li>
+                                <li><code>deleteId</code></li>
                                 <li><code>eventId</code></li>
+                                <li><code>externalId</code></li>
+                                <li><code>mediaId</code></li>
+                                <li><code>openidToken</code></li>
+                                <li><code>task_id</code></li>
                             </ul>
                         </li>
                     </ol>
@@ -173,6 +184,27 @@
                 <div class="col">
                     <div class="h2">Why not share the collection on Postman?</div>
                     <p>Because it's a pain to maintain.</p>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col">
+                    <div class="h2">Changelog</div>
+                    <div class="h4">2023.04.03</div>
+                    <ul>
+                        <li>Bugfixes</li>
+                        <li>Documented all environment variables</li>
+                        <li>Fixes request sorting</li>
+                        <li>Typos</li>
+                        <li>Added more environment variables</li>
+                        <li>Added: Admin - Find user by 3PID</li>
+                        <li>Added: Admin - Find user by External ID</li>
+                        <li>Added: Admin - Set user avatar</li>
+                        <li>Added: Admin - Shadow(un)ban user</li>
+                        <li>Added: CS - Get/Set Account data</li>
+                        <li>Added: MMR - Get users stats</li>
+                        <li>Added: MMR - Purge user media</li>
+                    </ul>
                 </div>
             </div>
         </div>
