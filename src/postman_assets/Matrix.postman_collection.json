@@ -257,6 +257,85 @@
 					"name": "Account",
 					"item": [
 						{
+							"name": "Account data get clobal",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/v3/user/{{userId}}/account_data/type",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"v3",
+										"user",
+										"{{userId}}",
+										"account_data",
+										"type"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Account data set clobal",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"custom_account_data_key\": \"custom_config_value\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/v3/user/{{userId}}/account_data/type",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"v3",
+										"user",
+										"{{userId}}",
+										"account_data",
+										"type"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Check username availability",
 							"event": [
 								{
@@ -1565,7 +1644,7 @@
 							"response": []
 						},
 						{
-							"name": "Get room powerlevels",
+							"name": "Get room power levels",
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -1589,13 +1668,13 @@
 							"response": []
 						},
 						{
-							"name": "Set room powerlevels",
+							"name": "Set room power levels",
 							"request": {
 								"method": "PUT",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"ban\": 50,\n    \"events\": {},\n    \"events_default\": 50,\n    \"kick\": 50,\n    \"redact\": 50,\n    \"state_default\": 100,\n    \"users\": {\n        \"@localUser{{url}}\": 100\n    },\n    \"users_default\": -1\n}",
+									"raw": "{\n    \"ban\": 50,\n    \"events\": {},\n    \"events_default\": 50,\n    \"kick\": 50,\n    \"redact\": 50,\n    \"state_default\": 100,\n    \"users\": {\n        \"@localUser:{{url}}\": 100\n    },\n    \"users_default\": -1\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2096,12 +2175,121 @@
 							"name": "matrix-media-repo",
 							"item": [
 								{
+									"name": "All known users' usage statistics",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const template = `",
+													"    <link rel=\"stylesheet\" type=\"text/css\" href=\"{{handlebarAssets.styleURL}}\" />",
+													"    <script src=\"{{handlebarAssets.javascriptURL}}\"></script>",
+													"",
+													"    <table bgcolor=\"#FFFFFF\">",
+													"        <tr>",
+													"            <th>Matrix ID</th>",
+													"            <th>Media Count</th>",
+													"            <th>Media Size</th>",
+													"        </tr>",
+													"",
+													"        {{#each users}}",
+													"            <tr>",
+													"                <td>{{user_id}}</td>",
+													"                <td>{{media_count}}</td>",
+													"                <td>{{media_length_hr}}</td>",
+													"            </tr>",
+													"        {{/each}}",
+													"    </table>",
+													"`;",
+													"",
+													"/**",
+													" * Convert bytes to human readable size",
+													" * @param {Number} bytes    size",
+													" * @returns {String}        For example 341.14 MB",
+													" */",
+													"function bytesToHumanReadable(bytes) {",
+													"    if (bytes === 0) {",
+													"        return '0.00 B';",
+													"    }",
+													"    const e = Math.floor(Math.log(bytes) / Math.log(1024));",
+													"    const hrValue = (bytes / Math.pow(1024, e)).toFixed(2);",
+													"    const label = ' KMGTP'.charAt(e);",
+													"    return `${hrValue} ${label}B`;",
+													"}",
+													"",
+													"const { users } = pm.response.json();",
+													"",
+													"users.forEach((user) => {",
+													"    user.media_length_hr = bytesToHumanReadable(user.media_length);",
+													"});",
+													"",
+													"// Call the visualizer template with all collected data",
+													"const handlebarAssets = {",
+													"    javascriptURL: `${pm.globals.get('assetsURL')}script.js`,",
+													"    styleURL: `${pm.globals.get('assetsURL')}style.css`,",
+													"};",
+													"",
+													"pm.visualizer.set(template, {",
+													"    // Pass the response body parsed as JSON as `data`",
+													"    handlebarAssets,",
+													"    users,",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://{{delegatedURL}}/_matrix/media/unstable/admin/usage/{{url}}/users-stats?limit=100&order_by=media_length&dir=b",
+											"protocol": "https",
+											"host": [
+												"{{delegatedURL}}"
+											],
+											"path": [
+												"_matrix",
+												"media",
+												"unstable",
+												"admin",
+												"usage",
+												"{{url}}",
+												"users-stats"
+											],
+											"query": [
+												{
+													"key": "from",
+													"value": "100",
+													"disabled": true
+												},
+												{
+													"key": "limit",
+													"value": "100"
+												},
+												{
+													"key": "order_by",
+													"value": "media_length",
+													"description": "One of [user_id media_length media_count]"
+												},
+												{
+													"key": "dir",
+													"value": "b"
+												}
+											]
+										},
+										"description": "https://github.com/turt2live/matrix-media-repo/blob/master/docs/admin.md#per-server-usage"
+									},
+									"response": []
+								},
+								{
 									"name": "Estimating size of a datastore",
 									"request": {
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "https://{{delegatedURL}}/_matrix/media/unstable/admin/datastores/4cb40f717e7055312bc47b85922b5aa6c0ba721e/size_estimate",
+											"raw": "https://{{delegatedURL}}/_matrix/media/unstable/admin/datastores/{{datastore}}/size_estimate",
 											"protocol": "https",
 											"host": [
 												"{{delegatedURL}}"
@@ -2112,7 +2300,7 @@
 												"unstable",
 												"admin",
 												"datastores",
-												"4cb40f717e7055312bc47b85922b5aa6c0ba721e",
+												"{{datastore}}",
 												"size_estimate"
 											]
 										},
@@ -2126,7 +2314,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "https://{{delegatedURL}}/_matrix/media/unstable/admin/tasks/task_id",
+											"raw": "https://{{delegatedURL}}/_matrix/media/unstable/admin/tasks/{{task_id}}",
 											"protocol": "https",
 											"host": [
 												"{{delegatedURL}}"
@@ -2137,7 +2325,7 @@
 												"unstable",
 												"admin",
 												"tasks",
-												"task_id"
+												"{{task_id}}"
 											]
 										},
 										"description": "https://github.com/turt2live/matrix-media-repo/blob/master/docs/admin.md#per-server-usage"
@@ -2241,12 +2429,55 @@
 									"response": []
 								},
 								{
+									"name": "Purge media uploaded by user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "https://{{delegatedURL}}/_matrix/media/unstable/admin/purge/user/{{userId}}?before_ts=1234567890000",
+											"protocol": "https",
+											"host": [
+												"{{delegatedURL}}"
+											],
+											"path": [
+												"_matrix",
+												"media",
+												"unstable",
+												"admin",
+												"purge",
+												"user",
+												"{{userId}}"
+											],
+											"query": [
+												{
+													"key": "before_ts",
+													"value": "1234567890000",
+													"description": "in milliseconds"
+												}
+											]
+										},
+										"description": "https://github.com/turt2live/matrix-media-repo/blob/master/docs/admin.md#per-server-usage"
+									},
+									"response": []
+								},
+								{
 									"name": "Quarantine media - matrix-media-repo",
 									"request": {
 										"method": "POST",
 										"header": [],
 										"url": {
-											"raw": "https://{{delegatedURL}}/_matrix/media/unstable/admin/quarantine/{{url}}/mediaId",
+											"raw": "https://{{delegatedURL}}/_matrix/media/unstable/admin/quarantine/{{url}}/{{mediaId}}",
 											"protocol": "https",
 											"host": [
 												"{{delegatedURL}}"
@@ -2258,7 +2489,7 @@
 												"admin",
 												"quarantine",
 												"{{url}}",
-												"mediaId"
+												"{{mediaId}}"
 											]
 										},
 										"description": "https://github.com/turt2live/matrix-media-repo/blob/master/docs/admin.md#quarantine-a-specific-record"
@@ -2377,7 +2608,7 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/media/quarantine/{{url}}/mediaId",
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/media/quarantine/{{url}}/{{mediaId}}",
 									"protocol": "https",
 									"host": [
 										"{{delegatedURL}}"
@@ -2389,7 +2620,7 @@
 										"media",
 										"quarantine",
 										"{{url}}",
-										"mediaId"
+										"{{mediaId}}"
 									]
 								},
 								"description": "https://matrix-org.github.io/synapse/latest/admin_api/media_admin_api.html#quarantining-media-by-id"
@@ -3131,7 +3362,7 @@
 											"",
 											"        if (stateEvent.type === 'm.room.avatar') {",
 											"            if (stateEvent.origin_server_ts > latest.avatar) {",
-											"                details.avatar = stateEvent.content.url.replace('mxc://', `https://${pm.environment.get('delegatedURL')}/_matrix/media/r0/download/`);",
+											"                details.avatar = stateEvent.content.url?.replace('mxc://', `https://${pm.environment.get('delegatedURL')}/_matrix/media/r0/download/`) || 'none';",
 											"            }",
 											"        }",
 											"",
@@ -3203,10 +3434,10 @@
 											"                    event = {",
 											"                        ...event,",
 											"                        'avatar_url': (stateEvent.content.avatar_url) ?",
-											"                            stateEvent.content.avatar_url.replace('mxc://', `https://${pm.environment.get('delegatedURL')}/_matrix/media/r0/download/`) :",
+											"                            stateEvent.content.avatar_url?.replace('mxc://', `https://${pm.environment.get('delegatedURL')}/_matrix/media/r0/download/`) :",
 											"                            'none',",
 											"                        'displayname': (stateEvent.content.displayname) ?",
-											"                            stateEvent.content.displayname.replace('\\'', ''):",
+											"                            stateEvent.content.displayname?.replace('\\'', ''):",
 											"                            'none',",
 											"                    }",
 											"                }",
@@ -3676,6 +3907,41 @@
 							]
 						},
 						{
+							"name": "Account Data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/users/{{userId}}/accountdata",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"users",
+										"{{userId}}",
+										"accountdata"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#query-user-account"
+							},
+							"response": []
+						},
+						{
 							"name": "Create or modify Account",
 							"event": [
 								{
@@ -3721,6 +3987,41 @@
 							"response": []
 						},
 						{
+							"name": "Check if user is admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/users/{{userId}}/admin",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"users",
+										"{{userId}}",
+										"admin"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#query-user-account"
+							},
+							"response": []
+						},
+						{
 							"name": "Check username availability",
 							"request": {
 								"method": "POST",
@@ -3745,6 +4046,151 @@
 									]
 								},
 								"description": "https://spec.matrix.org/unstable/client-server-api/#get_matrixclientr0roomsroomidaliases"
+							},
+							"response": []
+						},
+						{
+							"name": "Deactivate account",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"erase\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/deactivate/{{userId}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"deactivate",
+										"{{userId}}"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#deactivate-account"
+							},
+							"response": []
+						},
+						{
+							"name": "Find user by 3PID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {",
+											"    pm.environment.set('userId', pm.response.json().user_id);",
+											"}",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/threepid/{{3pidType}}/users/{{3pid}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"threepid",
+										"{{3pidType}}",
+										"users",
+										"{{3pid}}"
+									]
+								},
+								"description": "[https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#find-a-user-based-on-their-third-party-id-threepid-or-3pid](https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#find-a-user-based-on-their-third-party-id-threepid-or-3pid)\n\n`3pidType` = `msisdn` or `email`"
+							},
+							"response": []
+						},
+						{
+							"name": "Find user by External ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {",
+											"    pm.environment.set('userId', pm.response.json().user_id);",
+											"}",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/auth_providers/{{authProvider}}/users/{{externalId}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"auth_providers",
+										"{{authProvider}}",
+										"users",
+										"{{externalId}}"
+									]
+								},
+								"description": "[https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#find-a-user-based-on-their-third-party-id-threepid-or-3pid](https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#find-a-user-based-on-their-third-party-id-threepid-or-3pid)\n\n`3pidType` = `msisdn` or `email`"
+							},
+							"response": []
+						},
+						{
+							"name": "List room memberships of a user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/users/{{userId}}/joined_rooms",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"users",
+										"{{userId}}",
+										"joined_rooms"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#query-user-account"
 							},
 							"response": []
 						},
@@ -3810,6 +4256,81 @@
 							"response": []
 						},
 						{
+							"name": "Reset password",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"new_password\": \"password\",\n    \"logout_devices\": false\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/reset_password/{{userId}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"reset_password",
+										"{{userId}}"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#reset-password"
+							},
+							"response": []
+						},
+						{
+							"name": "Set user avatar",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"avatar_url\": \"mxc://{{url}}/abcd\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v2/users/{{userId}}",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v2",
+										"users",
+										"{{userId}}"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#create-or-modify-account"
+							},
+							"response": []
+						},
+						{
 							"name": "Set ratelimit",
 							"request": {
 								"method": "POST",
@@ -3843,21 +4364,23 @@
 							"response": []
 						},
 						{
-							"name": "Reset password",
+							"name": "Shadowban",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "POST",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"new_password\": \"password\",\n    \"logout_devices\": false\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/reset_password/{{userId}}",
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/users/{{userId}}/shadow_ban",
 									"protocol": "https",
 									"host": [
 										"{{delegatedURL}}"
@@ -3866,11 +4389,47 @@
 										"_synapse",
 										"admin",
 										"v1",
-										"reset_password",
-										"{{userId}}"
+										"users",
+										"{{userId}}",
+										"shadow_ban"
 									]
 								},
-								"description": "https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#reset-password"
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#query-user-account"
+							},
+							"response": []
+						},
+						{
+							"name": "Shadowunban",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/users/{{userId}}/shadow_ban",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"users",
+										"{{userId}}",
+										"shadow_ban"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#query-user-account"
 							},
 							"response": []
 						},
@@ -3904,6 +4463,41 @@
 									]
 								},
 								"description": "https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#change-whether-a-user-is-a-server-administrator-or-not"
+							},
+							"response": []
+						},
+						{
+							"name": "User devices",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v2/users/{{userId}}/devices",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v2",
+										"users",
+										"{{userId}}",
+										"devices"
+									]
+								},
+								"description": "https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#query-user-account"
 							},
 							"response": []
 						},
@@ -4066,179 +4660,7 @@
 										"{{userId}}"
 									]
 								},
-								"description": "https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#query-user-account"
-							},
-							"response": []
-						},
-						{
-							"name": "Deactivate account",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"erase\": true\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/deactivate/{{userId}}",
-									"protocol": "https",
-									"host": [
-										"{{delegatedURL}}"
-									],
-									"path": [
-										"_synapse",
-										"admin",
-										"v1",
-										"deactivate",
-										"{{userId}}"
-									]
-								},
-								"description": "https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#deactivate-account"
-							},
-							"response": []
-						},
-						{
-							"name": "Account Data",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/users/{{userId}}/accountdata",
-									"protocol": "https",
-									"host": [
-										"{{delegatedURL}}"
-									],
-									"path": [
-										"_synapse",
-										"admin",
-										"v1",
-										"users",
-										"{{userId}}",
-										"accountdata"
-									]
-								},
-								"description": "https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#query-user-account"
-							},
-							"response": []
-						},
-						{
-							"name": "Check if user is admin",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/users/{{userId}}/admin",
-									"protocol": "https",
-									"host": [
-										"{{delegatedURL}}"
-									],
-									"path": [
-										"_synapse",
-										"admin",
-										"v1",
-										"users",
-										"{{userId}}",
-										"admin"
-									]
-								},
-								"description": "https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#query-user-account"
-							},
-							"response": []
-						},
-						{
-							"name": "List room memberships of a user",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/users/{{userId}}/joined_rooms",
-									"protocol": "https",
-									"host": [
-										"{{delegatedURL}}"
-									],
-									"path": [
-										"_synapse",
-										"admin",
-										"v1",
-										"users",
-										"{{userId}}",
-										"joined_rooms"
-									]
-								},
-								"description": "https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#query-user-account"
-							},
-							"response": []
-						},
-						{
-							"name": "User devices",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v2/users/{{userId}}/devices",
-									"protocol": "https",
-									"host": [
-										"{{delegatedURL}}"
-									],
-									"path": [
-										"_synapse",
-										"admin",
-										"v2",
-										"users",
-										"{{userId}}",
-										"devices"
-									]
-								},
-								"description": "https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#query-user-account"
+								"description": "[https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#query-user-account](https://matrix-org.github.io/synapse/latest/admin_api/user_admin_api.html#query-user-account)"
 							},
 							"response": []
 						},
@@ -4729,7 +5151,7 @@
 					]
 				},
 				{
-					"name": "Algoritm details",
+					"name": "Algorithm details",
 					"request": {
 						"method": "GET",
 						"header": [],
