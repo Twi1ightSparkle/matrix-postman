@@ -24,6 +24,11 @@
                         <button class="btn btn-primary">Download collection</button>
                     </a>
                 </div>
+                <div class="col-4">
+                    <a href="./postman_assets/_Template.postman_environment.json" download>
+                        <button class="btn btn-primary">Download environment</button>
+                    </a>
+                </div>
                 <div class="col">
                     <a
                         href="https://github.com/Twi1ightSparkle/matrix-postman"
@@ -40,43 +45,40 @@
                     <h2>Setup</h2>
                     <ol>
                         <li>Download the collection</li>
+                        <li>Download the environment</li>
                         <li>
                             Install
                             <a href="https://www.postman.com/" target="_blank" rel="noopener noreferrer">Postman</a>
                         </li>
                         <li>Create a workspace</li>
+                        <li>Go to Collections</li>
                         <li>Click Import</li>
                         <li>Select <code>Matrix.postman_collection.json</code></li>
+                        <li>Click Environment, then Globals</li>
                         <li>
                             Create a global variable with name <code>assetsURL</code> and<br />
                             value <code>https://twi1ightsparkle.github.io/matrix-postman/postman_assets/</code>
                         </li>
-                        <li>
-                            Create an environment with the following variables. You don't need to create all, some are
-                            only used in one, or a few requests. The top six are the most commonly used.
-                            <ul>
-                                <li>
-                                    <code>url</code> - this is the homeserver domain (the domain in your Matrix IDs)
-                                </li>
-                                <li><code>delegatedURL</code> - this is the domain where your homeserver is exposed</li>
-                                <li><code>adminToken</code> - type secret</li>
-                                <li><code>userId</code></li>
-                                <li><code>userToken</code> - type secret</li>
-                                <li><code>roomId</code></li>
-                                <li><code>3pid</code></li>
-                                <li><code>3pidType</code></li>
-                                <li><code>authProvider</code></li>
-                                <li><code>community</code></li>
-                                <li><code>datastore</code></li>
-                                <li><code>deleteId</code></li>
-                                <li><code>eventId</code></li>
-                                <li><code>externalId</code></li>
-                                <li><code>mediaId</code></li>
-                                <li><code>openidToken</code></li>
-                                <li><code>task_id</code></li>
-                            </ul>
-                        </li>
+                        <li>Click Import</li>
+                        <li>Select <code>_Template.postman_environment.json</code></li>
                     </ol>
+                </div>
+            </div>
+
+           <div class="row mb-3">
+                <div class="col">
+                    <h2>Tips</h2>
+                    <ul>
+                        <li>Configure Postman to not save request changes on close.</li>
+                        <li>
+                            Every time you need to connect to a new Matrix server, duplicate the Template
+                            environment.
+                        </li>
+                        <li>
+                            Do not add any sensitive information to environment Initial value. This is synced to
+                            Postman servers. Data in Current value is only stored locally on your computer.
+                        </li>
+                    </ul>
                 </div>
             </div>
 
@@ -190,6 +192,13 @@
             <div class="row mb-3">
                 <div class="col">
                     <div class="h2">Changelog</div>
+
+                    <div class="h4">2023.04.27</div>
+                    <ul>
+                        <li>Added template environment</li>
+                        <li>Added some tips</li>
+                    </ul>
+
                     <div class="h4">2023.04.03</div>
                     <ul>
                         <li>Bugfixes</li>
