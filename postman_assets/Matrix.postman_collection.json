@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "34e93492-ce5b-4707-b4d4-2cc9cb36a301",
+		"_postman_id": "a91d7820-3a2f-4b6b-ace1-7d6eacc49613",
 		"name": "Matrix",
 		"description": "See https://twi1ightsparkle.github.io/matrix-postman",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "15545576"
+		"_exporter_id": "26716220"
 	},
 	"item": [
 		{
@@ -16,8 +16,8 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://chat.{{url}}/version",
-							"protocol": "https",
+							"raw": "{{protocol}}://chat.{{url}}/version",
+							"protocol": "{{protocol}}",
 							"host": [
 								"chat",
 								"{{url}}"
@@ -35,8 +35,8 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://chat.{{url}}/config.json",
-							"protocol": "https",
+							"raw": "{{protocol}}://chat.{{url}}/config.json",
+							"protocol": "{{protocol}}",
 							"host": [
 								"chat",
 								"{{url}}"
@@ -81,8 +81,8 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://{{delegatedURL}}/_matrix/federation/v1/version",
-							"protocol": "https",
+							"raw": "{{protocol}}://{{delegatedURL}}/_matrix/federation/v1/version",
+							"protocol": "{{protocol}}",
 							"host": [
 								"{{delegatedURL}}"
 							],
@@ -112,8 +112,8 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://{{delegatedURL}}/_matrix/federation/v1/query/profile?user_id=twilight",
-							"protocol": "https",
+							"raw": "{{protocol}}://{{delegatedURL}}/_matrix/federation/v1/query/profile?user_id=twilight",
+							"protocol": "{{protocol}}",
 							"host": [
 								"{{delegatedURL}}"
 							],
@@ -147,8 +147,8 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://{{delegatedURL}}/_matrix/key/v2/query/matrix.org/ed25519:key_id",
-							"protocol": "https",
+							"raw": "{{protocol}}://{{delegatedURL}}/_matrix/key/v2/query/matrix.org/ed25519:key_id",
+							"protocol": "{{protocol}}",
 							"host": [
 								"{{delegatedURL}}"
 							],
@@ -170,8 +170,8 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://{{delegatedURL}}/_matrix/key/v2/server",
-							"protocol": "https",
+							"raw": "{{protocol}}://{{delegatedURL}}/_matrix/key/v2/server",
+							"protocol": "{{protocol}}",
 							"host": [
 								"{{delegatedURL}}"
 							],
@@ -191,8 +191,8 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://{{url}}/.well-known/matrix/client",
-							"protocol": "https",
+							"raw": "{{protocol}}://{{url}}/.well-known/matrix/client",
+							"protocol": "{{protocol}}",
 							"host": [
 								"{{url}}"
 							],
@@ -211,8 +211,8 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://{{url}}/.well-known/matrix/server",
-							"protocol": "https",
+							"raw": "{{protocol}}://{{url}}/.well-known/matrix/server",
+							"protocol": "{{protocol}}",
 							"host": [
 								"{{url}}"
 							],
@@ -273,8 +273,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/v3/user/{{userId}}/account_data/type",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/v3/user/{{userId}}/account_data/type",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -317,8 +317,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/v3/user/{{userId}}/account_data/type",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/v3/user/{{userId}}/account_data/type",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -352,8 +352,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/register/available?username=localpart",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/register/available?username=localpart",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -405,8 +405,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/login",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/login",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -439,8 +439,8 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/logout",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/logout",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -471,8 +471,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/v0/profile/{{userId}}",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/v0/profile/{{userId}}",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -502,8 +502,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/profile/{{userId}}/avatar_url",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/profile/{{userId}}/avatar_url",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -538,8 +538,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/account/whoami",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/account/whoami",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -576,8 +576,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/groups/{{community}}/rooms",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/groups/{{community}}/rooms",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -610,8 +610,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/groups/{{community}}/users",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/groups/{{community}}/users",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -644,8 +644,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/groups/{{community}}/summary",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/groups/{{community}}/summary",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -672,8 +672,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/media/r0/download/{{url}}/{{mediaId}}",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/media/r0/download/{{url}}/{{mediaId}}",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -718,8 +718,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/media/r0/upload",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/media/r0/upload",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -754,8 +754,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/directory/room/%23alias:{{url}}",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/directory/room/%23alias:{{url}}",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -766,6 +766,96 @@
 										"directory",
 										"room",
 										"%23alias:{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Alias get canonical",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/state/m.room.canonical_alias",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"rooms",
+										"{{roomId}}",
+										"state",
+										"m.room.canonical_alias"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Alias set canonical",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"invalid-remove-this: alias\": \"%23alias:{{url}}\",\n    \"use-output-from-the-get-request: alt_aliases\": []\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/state/m.room.canonical_alias",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"rooms",
+										"{{roomId}}",
+										"state",
+										"m.room.canonical_alias"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Alias unset canonical",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"use-output-from-the-get-request: alt_aliases\": []\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/state/m.room.canonical_alias",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"rooms",
+										"{{roomId}}",
+										"state",
+										"m.room.canonical_alias"
 									]
 								}
 							},
@@ -805,8 +895,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/createRoom",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/createRoom",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -827,8 +917,8 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/directory/room/%23alias:{{url}}",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/directory/room/%23alias:{{url}}",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -896,8 +986,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/v3/rooms/{{roomId}}/event/{{eventId}}",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/v3/rooms/{{roomId}}/event/{{eventId}}",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -920,8 +1010,8 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/join/{{roomId}}?via={{url}}",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/join/{{roomId}}?via={{url}}",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -948,8 +1038,8 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/leave",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/leave",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -980,8 +1070,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/invite",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/invite",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -1012,8 +1102,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/state/m.room.member/{{userId}}",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/state/m.room.member/{{userId}}",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -1046,8 +1136,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/redact/{{eventId}}/{{$timestamp}}",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/redact/{{eventId}}/{{$timestamp}}",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -1088,8 +1178,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/directory/room/%23matrix:{{url}}",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/directory/room/%23matrix:{{url}}",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -1122,8 +1212,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/joined_members",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/joined_members",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -1561,6 +1651,10 @@
 											"                    pl_events.push({ 'event': `${event}: ${pl.events[event]}` })",
 											"                });",
 											"",
+											"                if (typeof pl.notifications === 'object') {",
+											"                    pl.notifications = JSON.stringify(pl.notifications);",
+											"                }",
+											"",
 											"                // Removed keys already processed, and save the rest to an array for printing",
 											"                delete pl['events'];",
 											"                delete pl['users'];",
@@ -1626,8 +1720,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/state",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/state",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -1649,8 +1743,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/state/m.room.power_levels",
-									"protocol": "http",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/state/m.room.power_levels",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -1682,8 +1776,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/state/m.room.power_levels",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/state/m.room.power_levels",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -1715,8 +1809,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/state/m.room.tombstone",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/state/m.room.tombstone",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -1748,8 +1842,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/send/m.room.message/{{$timestamp}}",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/send/m.room.message/{{$timestamp}}",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -1782,8 +1876,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/send/m.reaction/{{$timestamp}}",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/send/m.reaction/{{$timestamp}}",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -1816,8 +1910,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/state",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/state",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -1848,8 +1942,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/v3/rooms/{{roomId}}/upgrade",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/v3/rooms/{{roomId}}/upgrade",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -1871,8 +1965,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/unstable/uk.half-shot.msc2666/user/shared_rooms/{{userId}}",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/unstable/uk.half-shot.msc2666/user/shared_rooms/{{userId}}",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -1911,8 +2005,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/v3/capabilities",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/v3/capabilities",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -1943,8 +2037,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/versions",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/versions",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -1974,8 +2068,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/v3/voip/turnServer",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/v3/voip/turnServer",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -2082,8 +2176,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/login",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/login",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -2117,8 +2211,8 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/logout",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/logout",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -2150,8 +2244,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/account/whoami",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/account/whoami",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -2244,8 +2338,8 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "https://{{delegatedURL}}/_matrix/media/unstable/admin/usage/{{url}}/users-stats?limit=100&order_by=media_length&dir=b",
-											"protocol": "https",
+											"raw": "{{protocol}}://{{delegatedURL}}/_matrix/media/unstable/admin/usage/{{url}}/users-stats?limit=100&order_by=media_length&dir=b",
+											"protocol": "{{protocol}}",
 											"host": [
 												"{{delegatedURL}}"
 											],
@@ -2289,8 +2383,8 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "https://{{delegatedURL}}/_matrix/media/unstable/admin/datastores/{{datastore}}/size_estimate",
-											"protocol": "https",
+											"raw": "{{protocol}}://{{delegatedURL}}/_matrix/media/unstable/admin/datastores/{{datastore}}/size_estimate",
+											"protocol": "{{protocol}}",
 											"host": [
 												"{{delegatedURL}}"
 											],
@@ -2314,8 +2408,8 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "https://{{delegatedURL}}/_matrix/media/unstable/admin/tasks/{{task_id}}",
-											"protocol": "https",
+											"raw": "{{protocol}}://{{delegatedURL}}/_matrix/media/unstable/admin/tasks/{{task_id}}",
+											"protocol": "{{protocol}}",
 											"host": [
 												"{{delegatedURL}}"
 											],
@@ -2338,8 +2432,8 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "https://{{delegatedURL}}/_matrix/media/unstable/admin/tasks/all",
-											"protocol": "https",
+											"raw": "{{protocol}}://{{delegatedURL}}/_matrix/media/unstable/admin/tasks/all",
+											"protocol": "{{protocol}}",
 											"host": [
 												"{{delegatedURL}}"
 											],
@@ -2362,8 +2456,8 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "https://{{delegatedURL}}/_matrix/media/unstable/admin/datastores",
-											"protocol": "https",
+											"raw": "{{protocol}}://{{delegatedURL}}/_matrix/media/unstable/admin/datastores",
+											"protocol": "{{protocol}}",
 											"host": [
 												"{{delegatedURL}}"
 											],
@@ -2385,8 +2479,8 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "https://{{delegatedURL}}/_matrix/media/unstable/admin/usage/{{url}}",
-											"protocol": "https",
+											"raw": "{{protocol}}://{{delegatedURL}}/_matrix/media/unstable/admin/usage/{{url}}",
+											"protocol": "{{protocol}}",
 											"host": [
 												"{{delegatedURL}}"
 											],
@@ -2409,8 +2503,8 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "https://{{delegatedURL}}/_matrix/media/unstable/admin/usage/{{url}}/users",
-											"protocol": "https",
+											"raw": "{{protocol}}://{{delegatedURL}}/_matrix/media/unstable/admin/usage/{{url}}/users",
+											"protocol": "{{protocol}}",
 											"host": [
 												"{{delegatedURL}}"
 											],
@@ -2445,8 +2539,8 @@
 										"method": "POST",
 										"header": [],
 										"url": {
-											"raw": "https://{{delegatedURL}}/_matrix/media/unstable/admin/purge/user/{{userId}}?before_ts=1234567890000",
-											"protocol": "https",
+											"raw": "{{protocol}}://{{delegatedURL}}/_matrix/media/unstable/admin/purge/user/{{userId}}?before_ts=1234567890000",
+											"protocol": "{{protocol}}",
 											"host": [
 												"{{delegatedURL}}"
 											],
@@ -2477,8 +2571,8 @@
 										"method": "POST",
 										"header": [],
 										"url": {
-											"raw": "https://{{delegatedURL}}/_matrix/media/unstable/admin/quarantine/{{url}}/{{mediaId}}",
-											"protocol": "https",
+											"raw": "{{protocol}}://{{delegatedURL}}/_matrix/media/unstable/admin/quarantine/{{url}}/{{mediaId}}",
+											"protocol": "{{protocol}}",
 											"host": [
 												"{{delegatedURL}}"
 											],
@@ -2502,8 +2596,8 @@
 										"method": "POST",
 										"header": [],
 										"url": {
-											"raw": "https://{{delegatedURL}}/_matrix/media/unstable/admin/purge/quarantined",
-											"protocol": "https",
+											"raw": "{{protocol}}://{{delegatedURL}}/_matrix/media/unstable/admin/purge/quarantined",
+											"protocol": "{{protocol}}",
 											"host": [
 												"{{delegatedURL}}"
 											],
@@ -2554,8 +2648,8 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/users/{{userId}}/media?limit=2500",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/users/{{userId}}/media?limit=2500",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -2584,10 +2678,10 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}g/_synapse/admin/v1/media/protect/localMediaId",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/media/protect/localMediaId",
+									"protocol": "{{protocol}}",
 									"host": [
-										"{{delegatedURL}}g"
+										"{{delegatedURL}}"
 									],
 									"path": [
 										"_synapse",
@@ -2608,8 +2702,8 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/media/quarantine/{{url}}/{{mediaId}}",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/media/quarantine/{{url}}/{{mediaId}}",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -2647,8 +2741,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/directory/room/%23alias:{{url}}",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/directory/room/%23alias:{{url}}",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -2679,8 +2773,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/join/{{roomId}}",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/join/{{roomId}}",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -2702,8 +2796,8 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/directory/room/%23alias:{{url}}",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/directory/room/%23alias:{{url}}",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -2735,8 +2829,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/rooms/{{roomId}}",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/rooms/{{roomId}}",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -2767,8 +2861,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v2/rooms/{{roomId}}",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v2/rooms/{{roomId}}",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -2790,8 +2884,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v2/rooms/delete_status/{{deleteId}}",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v2/rooms/delete_status/{{deleteId}}",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -2814,8 +2908,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v2/rooms/{{roomId}}/delete_status",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v2/rooms/{{roomId}}/delete_status",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -2838,8 +2932,8 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/directory/list/room/{{roomId}}",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/directory/list/room/{{roomId}}",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -2871,8 +2965,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/rooms/{{roomId}}/make_room_admin",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/rooms/{{roomId}}/make_room_admin",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -2996,8 +3090,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/rooms/{{roomId}}/context/{{eventId}}",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/rooms/{{roomId}}/context/{{eventId}}",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -3021,8 +3115,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/v3/rooms/{{roomId}}/aliases",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/v3/rooms/{{roomId}}/aliases",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -3045,8 +3139,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/rooms/{{roomId}}/members",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/rooms/{{roomId}}/members",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -3484,6 +3578,10 @@
 											"                    pl_events.push({ 'event': `${event}: ${pl.events[event]}` })",
 											"                });",
 											"",
+											"                if (typeof pl.notifications === 'object') {",
+											"                    pl.notifications = JSON.stringify(pl.notifications);",
+											"                }",
+											"",
 											"                // Removed keys already processed, and save the rest to an array for printing",
 											"                delete pl['events'];",
 											"                delete pl['users'];",
@@ -3549,8 +3647,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/rooms/{{roomId}}/state",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/rooms/{{roomId}}/state",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -3725,8 +3823,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/rooms/{{roomId}}",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/rooms/{{roomId}}",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -3748,8 +3846,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/rooms",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/rooms",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -3787,8 +3885,8 @@
 											}
 										},
 										"url": {
-											"raw": "https://{{delegatedURL}}/_synapse/admin/v1/registration_tokens/new",
-											"protocol": "https",
+											"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/registration_tokens/new",
+											"protocol": "{{protocol}}",
 											"host": [
 												"{{delegatedURL}}"
 											],
@@ -3810,8 +3908,8 @@
 										"method": "DELETE",
 										"header": [],
 										"url": {
-											"raw": "https://{{delegatedURL}}/_synapse/admin/v1/registration_tokens/wxyz",
-											"protocol": "https",
+											"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/registration_tokens/wxyz",
+											"protocol": "{{protocol}}",
 											"host": [
 												"{{delegatedURL}}"
 											],
@@ -3833,8 +3931,8 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "https://{{delegatedURL}}/_synapse/admin/v1/registration_tokens/abcd",
-											"protocol": "https",
+											"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/registration_tokens/abcd",
+											"protocol": "{{protocol}}",
 											"host": [
 												"{{delegatedURL}}"
 											],
@@ -3856,8 +3954,8 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "https://{{delegatedURL}}/_synapse/admin/v1/registration_tokens",
-											"protocol": "https",
+											"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/registration_tokens",
+											"protocol": "{{protocol}}",
 											"host": [
 												"{{delegatedURL}}"
 											],
@@ -3887,8 +3985,8 @@
 											}
 										},
 										"url": {
-											"raw": "https://{{delegatedURL}}/_synapse/admin/v1/registration_tokens/defg",
-											"protocol": "https",
+											"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/registration_tokens/defg",
+											"protocol": "{{protocol}}",
 											"host": [
 												"{{delegatedURL}}"
 											],
@@ -3923,8 +4021,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/users/{{userId}}/accountdata",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/users/{{userId}}/accountdata",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -3969,8 +4067,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v2/users/{{userId}}",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v2/users/{{userId}}",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -4003,8 +4101,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/users/{{userId}}/admin",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/users/{{userId}}/admin",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -4027,8 +4125,8 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/username_availabile?username=$localPart",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/username_availabile?username=$localPart",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -4064,8 +4162,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/deactivate/{{userId}}",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/deactivate/{{userId}}",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -4101,8 +4199,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/threepid/{{3pidType}}/users/{{3pid}}",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/threepid/{{3pidType}}/users/{{3pid}}",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -4140,8 +4238,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/auth_providers/{{authProvider}}/users/{{externalId}}",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/auth_providers/{{authProvider}}/users/{{externalId}}",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -4176,8 +4274,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/users/{{userId}}/joined_rooms",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/users/{{userId}}/joined_rooms",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -4213,8 +4311,8 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/users/{{userId}}/login",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/users/{{userId}}/login",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -4237,8 +4335,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/users/@localuser:{{url}}/override_ratelimit",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/users/@localuser:{{url}}/override_ratelimit",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -4270,8 +4368,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/reset_password/{{userId}}",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/reset_password/{{userId}}",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -4313,8 +4411,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v2/users/{{userId}}",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v2/users/{{userId}}",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -4345,8 +4443,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/users/@localuser:{{url}}/override_ratelimit",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/users/@localuser:{{url}}/override_ratelimit",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -4380,8 +4478,8 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/users/{{userId}}/shadow_ban",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/users/{{userId}}/shadow_ban",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -4415,8 +4513,8 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/users/{{userId}}/shadow_ban",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/users/{{userId}}/shadow_ban",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -4448,8 +4546,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/users/{{userId}}/admin",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/users/{{userId}}/admin",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -4483,8 +4581,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v2/users/{{userId}}/devices",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v2/users/{{userId}}/devices",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -4647,8 +4745,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v2/users/{{userId}}",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v2/users/{{userId}}",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -4734,8 +4832,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v2/users?order_by=creation_ts&dir=b&guests=false&deactivated=true",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v2/users?order_by=creation_ts&dir=b&guests=false&deactivated=true",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -4800,8 +4898,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/background_updates/status",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/background_updates/status",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -4839,8 +4937,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/event_reports/12345",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/event_reports/12345",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -4873,8 +4971,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/event_reports",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/event_reports",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -4886,6 +4984,40 @@
 									]
 								},
 								"description": "https://matrix-org.github.io/synapse/latest/admin_api/event_reports.html#show-reported-events"
+							},
+							"response": []
+						},
+						{
+							"name": "List of destinations",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/federation/destinations",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"federation",
+										"destinations"
+									]
+								},
+								"description": "[https://matrix-org.github.io/synapse/latest/usage/administration/admin_api/federation.html#list-of-destinations](https://matrix-org.github.io/synapse/latest/usage/administration/admin_api/federation.html#list-of-destinations)"
 							},
 							"response": []
 						},
@@ -4915,8 +5047,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/background_updates/start_job",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_synapse/admin/v1/background_updates/start_job",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -5010,8 +5142,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{delegatedURL}}/_matrix/client/r0/user/{{userId}}/openid/request_token",
-									"protocol": "https",
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/user/{{userId}}/openid/request_token",
+									"protocol": "{{protocol}}",
 									"host": [
 										"{{delegatedURL}}"
 									],
