@@ -1743,8 +1743,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/state/m.room.power_levels",
-									"protocol": "http",
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/state/m.room.power_levels",
+									"protocol": "https",
 									"host": [
 										"{{delegatedURL}}"
 									],
@@ -2678,10 +2678,10 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "https://{{delegatedURL}}g/_synapse/admin/v1/media/protect/localMediaId",
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/media/protect/localMediaId",
 									"protocol": "https",
 									"host": [
-										"{{delegatedURL}}g"
+										"{{delegatedURL}}"
 									],
 									"path": [
 										"_synapse",
