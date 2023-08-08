@@ -772,6 +772,96 @@
 							"response": []
 						},
 						{
+							"name": "Alias get canonical",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{protocol}}://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/state/m.room.canonical_alias",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"rooms",
+										"{{roomId}}",
+										"state",
+										"m.room.canonical_alias"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Alias set canonical",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"invalid-remove-this: alias\": \"%23alias:{{url}}\",\n    \"use-output-from-the-get-request: alt_aliases\": []\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/state/m.room.canonical_alias",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"rooms",
+										"{{roomId}}",
+										"state",
+										"m.room.canonical_alias"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Alias unset canonical",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"use-output-from-the-get-request: alt_aliases\": []\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{delegatedURL}}/_matrix/client/r0/rooms/{{roomId}}/state/m.room.canonical_alias",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_matrix",
+										"client",
+										"r0",
+										"rooms",
+										"{{roomId}}",
+										"state",
+										"m.room.canonical_alias"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Create room",
 							"event": [
 								{
