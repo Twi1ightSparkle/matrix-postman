@@ -4980,6 +4980,40 @@
 							"response": []
 						},
 						{
+							"name": "List of destinations",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{delegatedURL}}/_synapse/admin/v1/federation/destinations",
+									"protocol": "https",
+									"host": [
+										"{{delegatedURL}}"
+									],
+									"path": [
+										"_synapse",
+										"admin",
+										"v1",
+										"federation",
+										"destinations"
+									]
+								},
+								"description": "[https://matrix-org.github.io/synapse/latest/usage/administration/admin_api/federation.html#list-of-destinations](https://matrix-org.github.io/synapse/latest/usage/administration/admin_api/federation.html#list-of-destinations)"
+							},
+							"response": []
+						},
+						{
 							"name": "Recalculate the user directory",
 							"event": [
 								{
